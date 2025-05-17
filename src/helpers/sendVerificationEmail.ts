@@ -1,5 +1,7 @@
 import { resend } from "@/lib/resend";
+
 import { ApiResponse } from "@/types/ApiResponse";
+import VerificationEmail from "../../emails/VerificationEmail";
 
 export async function sendVerificationEmail(
   email: string,
@@ -8,20 +10,14 @@ export async function sendVerificationEmail(
 ): Promise<ApiResponse> {
   try {
     await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: ["delivered@resend.dev"],
-      subject: "Hello world",
-      react: EmailTemplate({ firstName: "John" }),
+      from: "webquads.resend.dev",
+      to: email,
+      subject: "Mystery Message Verification Code",
+      react: VerificationEmail({ username, otp: verifyCode }),
     });
-    return {
-      success: true,
-      message: " verification email send successfully",
-    };
+    return { success: true, message: "Verification email sent successfully." };
   } catch (emailError) {
-    console.error("Error sending email:", emailError);
-    return {
-      success: false,
-      message: "Failed to send verification email",
-    };
+    console.error("Error sending verification email:", emailError);
+    return { success: false, message: "Failed to send verification email." };
   }
 }
