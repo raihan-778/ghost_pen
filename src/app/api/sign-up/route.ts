@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     });
 
     const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
-
+    //Checking Existing User by email
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
         return Response.json(
@@ -41,6 +41,7 @@ export async function POST(request: Request) {
           },
           { status: 400 }
         );
+        //give the access to user with new password
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         existingUserByEmail.password = hashedPassword;
