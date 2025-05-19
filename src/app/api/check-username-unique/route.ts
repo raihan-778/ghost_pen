@@ -1,7 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-import { z } from "zod";
 import { usernameValidation } from "@/schemas/signUpSchema";
+import { z } from "zod";
 
 const UserNameQuerySechema = z.object({
   username: usernameValidation,
@@ -30,6 +30,31 @@ export async function GET(request: Request) {
         { status: 400 }
       );
     }
+
+    const { username } = result.data;
+
+    const existingVerifiedUser = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
+
+    if (existingVerifiedUser) {
+      return Response.json(
+        {
+          success: false,
+          message: "Username already taken",
+        },
+        { status: 409 }
+      );
+    }
+
+    return Response.json(
+      {
+        success: true,
+        message: "Username is available",
+      },
+      { status: 405 }
+    );
   } catch (error) {
     console.error("Error Checking username", error);
 
