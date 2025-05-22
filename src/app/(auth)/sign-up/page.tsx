@@ -53,6 +53,7 @@ function Page() {
         setUsernameMessage("");
         try {
           const respones = await axios.get(
+            // this sign UP process will be handled manualy but sign In will handle by next auth so in sing in rotue we do not need to use axios
             `/api/check-username-unique?username=${username}`
           );
           console.log("axios Api get Response", respones.data.message);
