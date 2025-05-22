@@ -1,5 +1,14 @@
 import "next-auth";
 import { DefaultSession } from "next-auth";
+interface Session {
+  user: {
+    _id?: string;
+    isVerified?: boolean;
+    isAcceptingMessages?: boolean;
+    username?: string;
+    email?: string;
+  } & DefaultSession["user"];
+}
 
 declare module "next-auth" {
   interface User {
@@ -9,14 +18,12 @@ declare module "next-auth" {
     username?: string;
     email?: string;
   }
-  interface Session {
-    user: {
-      _id?: string;
-      isVerified?: boolean;
-      isAcceptingMessages?: boolean;
-      username?: string;
-      email?: string;
-    } & DefaultSession["user"];
+
+  interface User extends DefaultUser {
+    _id?: string;
+    isVerified?: boolean;
+    isAcceptingMessages?: boolean;
+    username?: string;
   }
 
   declare module "next-auth/jwt" {

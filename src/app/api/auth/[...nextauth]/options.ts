@@ -1,8 +1,20 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
-import { NextAuthOptions } from "next-auth";
+import { Session } from "inspector/promises";
+import { NextAuthOptions, DefaultSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      _id?: string;
+      isVerified?: boolean;
+      isAcceptingMessages?: boolean;
+      username?: string;
+    } & DefaultSession["user"];
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -47,6 +59,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -69,11 +82,11 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  pages: {
-    signIn: "/sign-in",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/sign-in",
+  },
+  secret: process.env.NEXT_AUTH_SECRET,
 };

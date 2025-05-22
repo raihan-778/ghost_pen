@@ -12,25 +12,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas/signInSchema";
-import { signUpSchema } from "@/schemas/signUpSchema";
-import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
-import { error } from "console";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { useDebounceCallback } from "usehooks-ts";
 import * as z from "zod";
 
 function Page() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const debounced = useDebounceCallback(setUsername, 500);
 
   const router = useRouter();
 
