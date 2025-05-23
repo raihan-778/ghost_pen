@@ -1,15 +1,16 @@
 "use client";
-import { Button } from "@react-email/components";
+
 import { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { Button } from "./ui/button";
 function Navbar() {
   const { data: session } = useSession();
 
-  const user: User = session?.user;
+  const user: User = session?.user as User;
 
   return (
-    <nav>
+    <nav className="p-2 md:p-4 shadow-md">
       <div className="container flex flex-col md:flex-row mx-auto justify-between items-center p-3">
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
           Mystry Message
@@ -23,9 +24,9 @@ function Navbar() {
             </Button>
           </>
         ) : (
-          <Link href={`/sign-in`}>
-            <Button className="w-full md:w-auto">Login</Button>
-          </Link>
+          <Button className="w-full md:w-auto">
+            <Link href={`/sign-in`}>Login </Link>
+          </Button>
         )}
       </div>
     </nav>
