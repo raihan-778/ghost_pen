@@ -20,7 +20,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [isSwtichLoading, setIsSwitchLoading] = useState(false);
 
-  const handleDeleteConfirm = (messageId: string) => {
+  const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
   };
 
@@ -102,6 +102,7 @@ function Dashboard() {
   };
 
   const { username } = session?.user as User;
+  console.log("username", username);
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
 

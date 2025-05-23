@@ -7,8 +7,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
-
-  const user: User = session?.user as User;
+  const _user: User = session?.user as User;
 
   if (!session || !session.user) {
     return Response.json(
@@ -20,7 +19,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const userId = user._id || new mongoose.Types.ObjectId(user._id); // user._id is a string here & it is ok when you use findById or findByIdAndUpdate. But if you use mongodb aggrigation pipeline, you need to convert it to ObjectId. So, you can use mongoose.Types.ObjectId(user._id) to convert it to ObjectId.
+  const userId = _user._id || new mongoose.Types.ObjectId(_user._id); // user._id is a string here & it is ok when you use findById or findByIdAndUpdate. But if you use mongodb aggrigation pipeline, you need to convert it to ObjectId. So, you can use mongoose.Types.ObjectId(user._id) to convert it to ObjectId.
 
   try {
     const user = await UserModel.aggregate([

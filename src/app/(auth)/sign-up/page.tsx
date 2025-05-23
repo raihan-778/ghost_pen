@@ -85,7 +85,7 @@ function Page() {
       console.log("axios Api post Response", data);
       console.log("axios Api post Response", response);
 
-      router.replace(`/api/verify/${username}`);
+      router.replace(`/verify/${username}`);
       setIsSubmitting(false);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
