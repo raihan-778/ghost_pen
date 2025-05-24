@@ -47,6 +47,7 @@ function Dashboard() {
           "Failed to fatch  Message settings",
         action: "destructive",
       });
+      setIsSwitchLoading(false);
     }
   }, [setValue]);
 
@@ -102,7 +103,7 @@ function Dashboard() {
   };
 
   const { username } = session?.user as User;
-  console.log("username", username);
+
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
 

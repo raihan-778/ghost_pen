@@ -5,10 +5,13 @@ export async function POST(request: Request) {
   await dbConnect();
   try {
     const { username, code } = await request.json();
+    console.log("userName,Code", username, code);
 
     const decodeUsername = decodeURIComponent(username);
+    console.log("decodedUser", decodeUsername);
 
     const user = await UserModel.findOne({ username: decodeUsername });
+    console.log("user", user);
 
     if (!user) {
       return Response.json(
@@ -39,9 +42,9 @@ export async function POST(request: Request) {
         {
           success: false,
           message:
-            "Our verification code has expired. Please Sign in again to get a new code.",
+            " verification code has expired. Please Sign in again to get a new code.",
         },
-        { status: 500 }
+        { status: 501 }
       );
     } else {
       return Response.json(

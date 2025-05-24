@@ -133,7 +133,7 @@ function Page() {
                   <p
                     className={`text-sm font-semibold ${usernameMessage === "Username is available" ? "text-green-500" : "text-red-500"}`}
                   >
-                    Test {usernameMessage}
+                    {usernameMessage}
                   </p>
 
                   <FormDescription>

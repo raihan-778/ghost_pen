@@ -31,11 +31,13 @@ function AccountVerify() {
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
       const response = await axios.post(`/api/verify-code`, {
-        param: params.username,
+        username: params.username,
         code: data.code,
       });
 
-      toast("Success", response.data.message);
+      console.log("response", response.data);
+
+      toast("Success", { description: response.data.message });
 
       router.replace("/sign-in");
     } catch (error) {
