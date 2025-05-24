@@ -13,7 +13,7 @@ function Navbar() {
     <nav className="p-2 md:p-4 shadow-md">
       <div className="container flex flex-col md:flex-row mx-auto justify-between items-center p-3">
         <a href="#" className="text-xl font-bold mb-4 md:mb-0">
-          Mystry Message
+          Mystry Messages
         </a>
 
         {session ? (
