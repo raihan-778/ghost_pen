@@ -4,7 +4,7 @@ import MessageCard from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Message, User } from "@/model/User";
+import { Message } from "@/model/User";
 import { AcceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,8 +17,8 @@ import { toast } from "sonner";
 
 function Dashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [isSwtichLoading, setIsSwitchLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSwitchLoading, setIsSwitchLoading] = useState(false);
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
@@ -53,30 +53,30 @@ function Dashboard() {
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
-      setLoading(true);
+      setIsLoading(true);
       setIsSwitchLoading(false);
       const response = await axios.get<ApiResponse>(`/api/get-messages`);
 
       setMessages(response.data.messages || []);
+
       try {
         if (refresh) {
           toast.success("Refreshed Messages", {
             description: "Showing Updated Messages",
-            action: "destructive",
           });
         }
       } catch (error) {
         const axiorError = error as AxiosError<ApiResponse>;
-        toast.error("error", {
+        toast("error", {
           description:
             axiorError.response?.data.message || "Failed to fatch Messages",
         });
       } finally {
-        setLoading(false);
+        setIsLoading(false);
         setIsSwitchLoading(false);
       }
     },
-    [setLoading, setIsSwitchLoading]
+    [setIsLoading, setIsSwitchLoading]
   );
 
   useEffect(() => {
@@ -102,7 +102,8 @@ function Dashboard() {
     }
   };
 
-  const { username } = session?.user as User;
+  // const { username } = session?.user as User;
+  const username = session?.user?.username;
 
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
   const profileUrl = `${baseUrl}/u/${username}`;
@@ -139,7 +140,7 @@ function Dashboard() {
           {...register("acceptMessages")}
           checked={acceptMessages}
           onCheckedChange={handleSwitchChange}
-          disabled={isSwtichLoading}
+          // disabled={isSwitchLoading}
         />
         <span className="ml-2">
           Accept Messages: {acceptMessages ? "On" : "Off"}
@@ -155,7 +156,7 @@ function Dashboard() {
           fetchMessages(true);
         }}
       >
-        {loading ? (
+        {isLoading ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : (
           <RefreshCcw className="h-4 w-4" />
@@ -163,7 +164,7 @@ function Dashboard() {
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
               key={message._id as string}
               message={message}

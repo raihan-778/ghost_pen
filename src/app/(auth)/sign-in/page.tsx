@@ -40,6 +40,7 @@ function Page() {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    setIsSubmitting(true);
     //here we will use next auth insted of axios
 
     const result = await signIn("credentials", {
@@ -48,6 +49,7 @@ function Page() {
       password: data.password,
     });
     console.log("signIn result", result);
+    setIsSubmitting(false);
 
     if (result?.error === "CredentialsSignInError") {
       toast.error("Login Failed due to incorrect username or password");
@@ -55,6 +57,7 @@ function Page() {
     if (result?.url) {
       router.replace(`/dashboard`);
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -111,6 +114,7 @@ function Page() {
               )}
             </Button>
           </form>
+          <>{<div>This is for error toast</div>}</>
         </Form>
         <div className="text-center mt-4">
           <p>New User!!</p>

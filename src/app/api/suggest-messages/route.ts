@@ -20,9 +20,11 @@ export async function POST(req: Request) {
       maxTokens: 400,
       messages: [
         {
-          role: "user",
-          content: prompt,
+          role: "system",
+          content:
+            "You're a helpful assistant that suggests short, friendly messages.",
         },
+        { role: "user", content: prompt },
       ],
     });
 
