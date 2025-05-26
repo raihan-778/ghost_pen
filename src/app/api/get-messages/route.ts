@@ -47,7 +47,7 @@ export async function GET(request: Request) {
         success: true,
         messages: user[0].messages,
       },
-      { status: 404 }
+      { status: 200 }
     );
   } catch (error) {
     console.error("An Unexpected Error Occured", error);

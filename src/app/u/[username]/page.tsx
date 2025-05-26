@@ -88,8 +88,9 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete("");
-      console.log("Epending");
+      await complete("");
+      console.log("Suggested messages fetched successfully:", completion);
+
       // Using append() instead of complete()
     } catch (error) {
       console.error("Error fetching messages:", error);

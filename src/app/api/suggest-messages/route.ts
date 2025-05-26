@@ -1,6 +1,8 @@
+import { streamText } from "ai";
+
 import { openai } from "@ai-sdk/openai";
 
-import { streamText } from "ai";
+export const runtime = "edge";
 
 // Allow streaming responses up to 30 seconds
 
@@ -15,7 +17,9 @@ export async function POST(req: Request) {
     //   apiKey: process.env.OPENAI_API_KEY,
     // });
 
-    const result = streamText({
+    console.log("API Key exists:", !!process.env.OPENAI_API_KEY);
+
+    const { textStream } = await streamText({
       model: openai("gpt-4o"), // Replacing instruct model with chat-style model
       maxTokens: 400,
       messages: [
@@ -28,9 +32,12 @@ export async function POST(req: Request) {
       ],
     });
 
-    console.log("Streaming response started", result.toDataStreamResponse);
-
-    return result.toDataStreamResponse();
+    // Return the raw ReadableStream
+    return new Response(textStream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+      },
+    });
   } catch (error) {
     console.error("Error in suggest-messages", error);
   }

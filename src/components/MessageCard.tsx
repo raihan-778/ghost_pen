@@ -67,10 +67,10 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
           </AlertDialogContent>
         </AlertDialog>
 
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription>{message.createdAt.toLocaleString()}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>{message.content}</p>
       </CardContent>
     </Card>
   );
