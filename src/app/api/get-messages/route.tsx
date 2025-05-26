@@ -19,15 +19,18 @@ export async function GET(request: Request) {
     );
   }
 
-  const userId = _user._id || new mongoose.Types.ObjectId(_user._id); // user._id is a string here & it is ok when you use findById or findByIdAndUpdate. But if you use mongodb aggrigation pipeline, you need to convert it to ObjectId. So, you can use mongoose.Types.ObjectId(user._id) to convert it to ObjectId.
+  const userId = new mongoose.Types.ObjectId(_user._id); // user._id is a string here & it is ok when you use findById or findByIdAndUpdate. But if you use mongodb aggrigation pipeline, you need to convert it to ObjectId. So, you can use mongoose.Types.ObjectId(user._id) to convert it to ObjectId.
+  console.log("User ID:", userId);
 
   try {
     const user = await UserModel.aggregate([
-      { $match: { id: userId } },
+      { $match: { _id: userId } },
       { $unwind: "$messages" },
       { $sort: { "messages.createdAt": -1 } },
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
+
+    console.log("User Messages:", user);
 
     if (!user || user.length === 0) {
       return Response.json(

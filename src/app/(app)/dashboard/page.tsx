@@ -36,16 +36,15 @@ function Dashboard() {
 
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
-    const response = await axios.get<ApiResponse>(`/api/accept-messages`);
-    setValue("acceptMessages", response.data.isAcceptingMessage as boolean);
     try {
+      const response = await axios.get<ApiResponse>(`/api/accept-messages`);
+      setValue("acceptMessages", response.data.isAcceptingMessage as boolean);
     } catch (error) {
       const axiorError = error as AxiosError<ApiResponse>;
       toast.error("error", {
         description:
           axiorError.response?.data.message ||
           "Failed to fatch  Message settings",
-        action: "destructive",
       });
       setIsSwitchLoading(false);
     }
@@ -56,6 +55,7 @@ function Dashboard() {
       setIsLoading(true);
       setIsSwitchLoading(false);
       const response = await axios.get<ApiResponse>(`/api/get-messages`);
+      console.log(" Get Message API Response Data:", response.data.messages);
 
       setMessages(response.data.messages || []);
 

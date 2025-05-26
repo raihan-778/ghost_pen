@@ -28,6 +28,8 @@ export async function POST(req: Request) {
       ],
     });
 
+    console.log("Streaming response started", result.toDataStreamResponse);
+
     return result.toDataStreamResponse();
   } catch (error) {
     console.error("Error in suggest-messages", error);

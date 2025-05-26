@@ -70,9 +70,10 @@ export default function SendMessage() {
         username,
       });
 
-      toast(`${response.data.message}`, {
-        description: response.data.message,
+      toast(`Success:${response.data.success}`, {
+        description: `${response.data.messages}`,
       });
+      console.log("send message", response.data);
       form.reset({ ...form.getValues(), content: "" });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
