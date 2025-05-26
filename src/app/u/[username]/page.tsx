@@ -58,6 +58,7 @@ export default function SendMessage() {
 
   const handleMessageClick = (message: string) => {
     form.setValue("content", message);
+    console.log("Selected message:", message);
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +90,6 @@ export default function SendMessage() {
   const fetchSuggestedMessages = async () => {
     try {
       await complete("");
-      console.log("Suggested messages fetched successfully:", completion);
 
       // Using append() instead of complete()
     } catch (error) {
