@@ -30,13 +30,14 @@ import * as z from "zod";
 const specialChar = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
-  return messageString.split(specialChar);
+  return messageString.split(specialChar).filter((msg) => msg.trim());
 };
 
 const initialMessageString =
   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 export default function SendMessage() {
+  const [selectedMessage, setSelectedMessage] = useState("");
   const params = useParams<{ username: string }>();
   const username = params.username;
 
@@ -48,10 +49,16 @@ export default function SendMessage() {
   } = useCompletion({
     api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
+    onFinish: () => {
+      console.log("Final completion:", completion);
+    },
   });
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
+    defaultValues: {
+      content: "",
+    },
   });
 
   const messageContent = form.watch("content");
@@ -90,6 +97,8 @@ export default function SendMessage() {
   const fetchSuggestedMessages = async () => {
     try {
       await complete("");
+      console.log("suggested messages:", complete);
+      setSelectedMessage("");
 
       // Using append() instead of complete()
     } catch (error) {
@@ -100,6 +109,9 @@ export default function SendMessage() {
       }
     }
   };
+
+  const suggestedMessages = parseStringMessages(completion);
+  console.log("Suggested Messages:", suggestedMessages);
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -147,7 +159,7 @@ export default function SendMessage() {
             className="my-4"
             disabled={isSuggestLoading}
           >
-            Suggest Messages
+            {isSuggestLoading ? "Generating..." : "Suggested Messages"}
           </Button>
           <p>Click on any message below to select it.</p>
         </div>
@@ -155,22 +167,24 @@ export default function SendMessage() {
           <CardHeader>
             <h3 className="text-xl font-semibold">Messages</h3>
           </CardHeader>
-          <CardContent className="flex flex-col space-y-4">
-            {error ? (
-              <p className="text-red-500">{error.message}</p>
-            ) : (
-              parseStringMessages(completion).map((message, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  className="mb-2"
-                  onClick={() => handleMessageClick(message)}
-                >
-                  {message}
-                </Button>
-              ))
-            )}
-          </CardContent>
+          {suggestedMessages.length > 0 && (
+            <CardContent className="flex flex-col space-y-4">
+              {error ? (
+                <p className="text-red-500">{error.message}</p>
+              ) : (
+                suggestedMessages.map((message, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className={`p-3 border rounded cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gray-50"}`}
+                    onClick={() => handleMessageClick(message)}
+                  >
+                    {message}
+                  </Button>
+                ))
+              )}
+            </CardContent>
+          )}
         </Card>
       </div>
       <Separator className="my-6" />
@@ -179,6 +193,13 @@ export default function SendMessage() {
         <Link href={"/sign-up"}>
           <Button>Create Your Account</Button>
         </Link>
+      </div>
+
+      {/* Debug info (remove in production) */}
+      <div className="text-sm text-gray-500">
+        <div>Selected: {selectedMessage}</div>
+        <div>Form value: {form.watch("content")}</div>
+        <div>Completion: {completion}</div>
       </div>
     </div>
   );
