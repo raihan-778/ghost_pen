@@ -49,8 +49,8 @@ export default function SendMessage() {
   } = useCompletion({
     api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
-    onFinish: () => {
-      console.log("Final completion:", completion);
+    onFinish: (finalComplition) => {
+      console.log("Final completion:", finalComplition);
     },
   });
 
@@ -65,6 +65,7 @@ export default function SendMessage() {
 
   const handleMessageClick = (message: string) => {
     form.setValue("content", message);
+    setSelectedMessage(message);
     console.log("Selected message:", message);
   };
 
@@ -97,8 +98,7 @@ export default function SendMessage() {
   const fetchSuggestedMessages = async () => {
     try {
       await complete("");
-      console.log("suggested messages:", complete);
-      setSelectedMessage("");
+      console.log("suggested messages Complition:", completion);
 
       // Using append() instead of complete()
     } catch (error) {
