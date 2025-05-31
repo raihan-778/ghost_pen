@@ -1,39 +1,65 @@
-import { streamText } from "ai";
-
-import { openai } from "@ai-sdk/openai";
-
-// Allow streaming responses up to 30 seconds
+import OpenAI from "openai";
 
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
-    console.log("API Key exists:", !!process.env.OPENAI_API_KEY);
+    const token = process.env.OPENAI_API_KEY;
+    console.log("API Key exists:", !!token);
 
     const defaultPrompt =
       prompt ||
       "Create a list of three open-ended and engaging questions formatted as a single string. Each question should be separated by '||'. These questions are for an anonymous social messaging platform, like Qooh.me, and should be suitable for a diverse audience. Avoid personal or sensitive topics, focusing instead on universal themes that encourage friendly interaction. For example, your output should be structured like this: 'What's a hobby you've recently started?||If you could have dinner with any historical figure, who would it be?||What's a simple thing that makes you happy?'. Ensure the questions are intriguing, foster curiosity, and contribute to a positive and welcoming conversational environment.";
 
-    const { textStream } = await streamText({
-      model: openai("gpt-4o"),
-      prompt: defaultPrompt,
-      temperature: 0.8,
-      maxTokens: 300,
-      system:
-        "You are a helpful assistant generating friendly, universally engaging questions for an anonymous Q&A platform. Avoid personal or sensitive topics.",
+    console.log("default:", defaultPrompt);
+
+    const client = new OpenAI({
+      baseURL: "https://models.github.ai/inference",
+      apiKey: token,
     });
 
-    // for await (const text of textStream) {
-    //   process.stdout.write(text);
-    // }
-    // return textStream;
+    const encoder = new TextEncoder();
 
-    // Convert the stream to a text response
-    return new Response(await textStream, {
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          const response = await client.chat.completions.create({
+            model: "openai/gpt-4o",
+            messages: [
+              { role: "system", content: defaultPrompt },
+              { role: "user", content: "" },
+            ],
+            temperature: 1,
+            max_tokens: 4096,
+            top_p: 1,
+            stream: true,
+          });
+
+          let receivedText = ""; // Track all received content
+
+          for await (const chunk of response) {
+            const content = chunk.choices[0]?.delta?.content;
+            if (content) {
+              receivedText += content; // Accumulate
+              controller.enqueue(encoder.encode(content));
+            }
+          }
+
+          console.log("TOTAL RECEIVED TEXT:", receivedText); // Verify ALL data
+          controller.close();
+        } catch (error) {
+          console.error("Streaming error:", error);
+          controller.error(error);
+        }
+      },
+    });
+
+    return new Response(stream, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache",
+        Connection: "keep-alive",
       },
     });
   } catch (error) {
@@ -46,18 +72,3 @@ export async function POST(req: Request) {
     });
   }
 }
-
-// const reader = textStream.getReader();
-// const { value, done } = await reader.read();
-
-// if (!value) {
-//   console.warn("⚠️ Stream returned no content.");
-//   return new Response("No content returned from model", {
-//     status: 200,
-//     headers: { "Content-Type": "text/plain" },
-//   });
-// }
-
-// const chunk = new TextDecoder().decode(value);
-// console.log("First decoded chunk:", chunk);
-// return new Response(chunk);
