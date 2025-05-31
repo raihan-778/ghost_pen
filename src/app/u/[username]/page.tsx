@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
-import { useCallback, useState } from "react";
+// import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -21,17 +21,28 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { messageSchema } from "@/schemas/messageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
-import { useCompletion } from "@ai-sdk/react";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import * as z from "zod";
 
 const specialChar = "||";
 
-const parseStringMessages = (messageString: string): string[] => {
-  return messageString.split(specialChar).filter((msg) => msg.trim());
-};
+// const parseStringMessages = (messageString: string): string[] => {
+//   if(!messageString) return []
+//   return messageString.split(specialChar).filter((msg) => msg.trim());
+// };
+
+// Helper function to parse messages
+function parseStringMessages(messageString: string): string[] {
+  if (!messageString) return [];
+  return messageString
+    .split(specialChar)
+    .map((msg) => msg.trim())
+    .filter(Boolean);
+}
 
 const initialMessageString =
   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
@@ -40,21 +51,39 @@ export default function SendMessage() {
   const [selectedMessage, setSelectedMessage] = useState("");
   const params = useParams<{ username: string }>();
   const username = params.username;
-  //      const [questions, setQuestions] = useState<string[]>([]);
-  // const [error, setError] = useState<string | null>(null);
+  let fullText = "";
 
-  const {
-    complete,
-    completion,
-    isLoading: isSuggestLoading,
-    error,
-  } = useCompletion({
-    api: "/api/suggest-messages",
-    initialCompletion: initialMessageString,
-    onFinish: (finalComplition) => {
-      console.log("Final completion:", finalComplition);
-    },
-  });
+  const fetchSuggestedMessages = async () => {
+    const response = await fetch("/api/suggest-messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: "" }),
+    });
+    try {
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const result = await reader?.read();
+        if (!result || result.done) break;
+
+        const chunk = decoder.decode(result.value);
+        fullText += chunk;
+        console.log("Streaming chunk:", chunk); // Real-time updates
+      }
+
+      // Split questions by "||"
+
+      console.log("Suggested Messages:", suggestedMessages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      // Handle error appropriately (e.g., show toast notification)
+      if (error instanceof Error) {
+        toast.error(`Failed to get suggestions: ${error.message}`);
+      }
+    }
+    // Using append() instead of complete()
+  };
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -62,6 +91,7 @@ export default function SendMessage() {
       content: "",
     },
   });
+  const suggestedMessages = parseStringMessages(fullText);
 
   const messageContent = form.watch("content");
 
@@ -97,26 +127,19 @@ export default function SendMessage() {
     }
   };
 
-  const fetchSuggestedMessages = async () => {
-    try {
-      await complete("");
-      console.log(complete);
-      console.log("suggested messages Complition:", completion);
-
-      // Using append() instead of complete()
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      // Handle error appropriately (e.g., show toast notification)
-      if (error instanceof Error) {
-        toast.error(`Failed to get suggestions: ${error.message}`);
-      }
-    }
-  };
+  // const fetchSuggestedMessages = async () => {
+  //   try {
+  //     // Using append() instead of complete()
+  //   } catch (error) {
+  //     console.error("Error fetching messages:", error);
+  //     // Handle error appropriately (e.g., show toast notification)
+  //     if (error instanceof Error) {
+  //       toast.error(`Failed to get suggestions: ${error.message}`);
+  //     }
+  //   }
+  // };
 
   // Optimized streaming fetch with useCallback
-
-  const suggestedMessages = parseStringMessages(completion);
-  console.log("Suggested Messages:", suggestedMessages);
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -162,9 +185,9 @@ export default function SendMessage() {
           <Button
             onClick={fetchSuggestedMessages}
             className="my-4"
-            disabled={isSuggestLoading}
+            disabled={isLoading}
           >
-            {isSuggestLoading ? "Generating..." : "Suggested Messages"}
+            {isLoading ? "Generating..." : "Suggested Messages"}
           </Button>
           <p>Click on any message below to select it.</p>
         </div>

@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
@@ -40,6 +39,7 @@ export async function POST(req: Request) {
 
           for await (const chunk of response) {
             const content = chunk.choices[0]?.delta?.content;
+            console.log(content);
             if (content) {
               receivedText += content; // Accumulate
               controller.enqueue(encoder.encode(content));
@@ -54,7 +54,6 @@ export async function POST(req: Request) {
         }
       },
     });
-
     return new Response(stream, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
