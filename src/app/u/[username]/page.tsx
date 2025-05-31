@@ -40,22 +40,21 @@ export default function SendMessage() {
   const [selectedMessage, setSelectedMessage] = useState("");
   const params = useParams<{ username: string }>();
   const username = params.username;
-       const [questions, setQuestions] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  //      const [questions, setQuestions] = useState<string[]>([]);
+  // const [error, setError] = useState<string | null>(null);
 
-
-  // const {
-  //   complete,
-  //   completion,
-  //   isLoading: isSuggestLoading,
-  //   error,
-  // } = useCompletion({
-  //   api: "/api/suggest-messages",
-  //   initialCompletion: initialMessageString,
-  //   onFinish: (finalComplition) => {
-  //     console.log("Final completion:", finalComplition);
-  //   },
-  // });
+  const {
+    complete,
+    completion,
+    isLoading: isSuggestLoading,
+    error,
+  } = useCompletion({
+    api: "/api/suggest-messages",
+    initialCompletion: initialMessageString,
+    onFinish: (finalComplition) => {
+      console.log("Final completion:", finalComplition);
+    },
+  });
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -98,78 +97,25 @@ export default function SendMessage() {
     }
   };
 
-  // const fetchSuggestedMessages = async () => {
-
-  //   try {
-  //     await complete("");
-  //     console.log(complete);
-  //     console.log("suggested messages Complition:", completion);
-
-  //     // Using append() instead of complete()
-  //   } catch (error) {
-  //     console.error("Error fetching messages:", error);
-  //     // Handle error appropriately (e.g., show toast notification)
-  //     if (error instanceof Error) {
-  //       toast.error(`Failed to get suggestions: ${error.message}`);
-  //     }
-  //   }
-  // };
-
-  
-  // Optimized streaming fetch with useCallback
-  const generateQuestions = useCallback(async (customPrompt?: string) => {
-  
-
-    setIsLoading(true);
-    setQuestions([]);
-    setError(null);
-
+  const fetchSuggestedMessages = async () => {
     try {
-      const response = await fetch('/api/suggest-messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: customPrompt }),
-      });
+      await complete("");
+      console.log(complete);
+      console.log("suggested messages Complition:", completion);
 
-      if (!response.ok) throw new Error('Failed to fetch questions');
-      if (!response.body) throw new Error('No streamable response');
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        
-        // Process chunks only when we have a complete question (ends with '||')
-        const parts = buffer.split('||');
-        
-        // If we have at least one complete question (last part is incomplete)
-        if (parts.length > 1) {
-          // All except last are complete questions
-          const completeQuestions = parts.slice(0, -1).map(q => q.trim()).filter(Boolean);
-          if (completeQuestions.length) {
-            setQuestions(prev => [...prev, ...completeQuestions]);
-          }
-          buffer = parts[parts.length - 1]; // Keep the incomplete part
-        }
+      // Using append() instead of complete()
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      // Handle error appropriately (e.g., show toast notification)
+      if (error instanceof Error) {
+        toast.error(`Failed to get suggestions: ${error.message}`);
       }
-
-      // Process any remaining text after streaming ends
-      if (buffer.trim()) {
-        setQuestions(prev => [...prev, buffer.trim()]);
-      }
-
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-    } finally {
-      setIsLoading(false);
     }
+  };
 
-  // const suggestedMessages = parseStringMessages(completion);
+  // Optimized streaming fetch with useCallback
+
+  const suggestedMessages = parseStringMessages(completion);
   console.log("Suggested Messages:", suggestedMessages);
 
   return (
