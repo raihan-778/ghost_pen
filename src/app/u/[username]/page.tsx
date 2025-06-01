@@ -36,62 +36,68 @@ const specialChar = "||";
 // };
 
 // Helper function to parse messages
-function parseStringMessages(messageString: string): string[] {
-  if (!messageString) return [];
-  return messageString
-    .split(specialChar)
-    .map((msg) => msg.trim())
-    .filter(Boolean);
-}
 
 const initialMessageString =
   "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
+const parseStringMessages = (messageString: string): string[] => {
+  return messageString.split(specialChar);
+};
+
+const innitialMessages = parseStringMessages(initialMessageString);
+
 export default function SendMessage() {
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuggestionLoading, setIsSuggestionLoading] = useState(false);
+  const [error, setError] = useState("");
   const [selectedMessage, setSelectedMessage] = useState("");
   const params = useParams<{ username: string }>();
   const username = params.username;
-  let fullText = "";
 
   const fetchSuggestedMessages = async () => {
-    const response = await fetch("/api/suggest-messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: "" }),
-    });
+    setIsSuggestionLoading(true);
+
+    setError("");
+    setSuggestions([]);
+
     try {
-      const reader = response.body?.getReader();
+      const res = await fetch("/api/suggest-messages", {
+        method: "POST",
+        body: JSON.stringify({ prompt: "" }),
+      });
+
+      const reader = res.body?.getReader();
       const decoder = new TextDecoder();
+      let fullText = "";
 
-      while (true) {
-        const result = await reader?.read();
-        if (!result || result.done) break;
-
-        const chunk = decoder.decode(result.value);
-        fullText += chunk;
-        console.log("Streaming chunk:", chunk); // Real-time updates
+      while (reader) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        fullText += decoder.decode(value);
       }
 
-      // Split questions by "||"
-
-      console.log("Suggested Messages:", suggestedMessages);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      // Handle error appropriately (e.g., show toast notification)
-      if (error instanceof Error) {
-        toast.error(`Failed to get suggestions: ${error.message}`);
-      }
+      const newSuggestions = parseStringMessages(fullText);
+      // .split(specialChar)
+      // .map((q) => q.trim())
+      // .filter(Boolean);
+      setSuggestions(newSuggestions);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch suggestions.");
+    } finally {
+      setIsSuggestionLoading(false);
     }
     // Using append() instead of complete()
   };
 
+  // const suggestedMessages = parseStringMessages(fullText);
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
     defaultValues: {
       content: "",
     },
   });
-  const suggestedMessages = parseStringMessages(fullText);
 
   const messageContent = form.watch("content");
 
@@ -100,8 +106,6 @@ export default function SendMessage() {
     setSelectedMessage(message);
     console.log("Selected message:", message);
   };
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
@@ -126,20 +130,6 @@ export default function SendMessage() {
       setIsLoading(false);
     }
   };
-
-  // const fetchSuggestedMessages = async () => {
-  //   try {
-  //     // Using append() instead of complete()
-  //   } catch (error) {
-  //     console.error("Error fetching messages:", error);
-  //     // Handle error appropriately (e.g., show toast notification)
-  //     if (error instanceof Error) {
-  //       toast.error(`Failed to get suggestions: ${error.message}`);
-  //     }
-  //   }
-  // };
-
-  // Optimized streaming fetch with useCallback
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -185,9 +175,9 @@ export default function SendMessage() {
           <Button
             onClick={fetchSuggestedMessages}
             className="my-4"
-            disabled={isLoading}
+            disabled={isSuggestionLoading}
           >
-            {isLoading ? "Generating..." : "Suggested Messages"}
+            {isSuggestionLoading ? "Generating..." : "Suggested Messages"}
           </Button>
           <p>Click on any message below to select it.</p>
         </div>
@@ -195,12 +185,29 @@ export default function SendMessage() {
           <CardHeader>
             <h3 className="text-xl font-semibold">Messages</h3>
           </CardHeader>
-          {suggestedMessages.length > 0 && (
+          {suggestions.length ? (
             <CardContent className="flex flex-col space-y-4">
               {error ? (
-                <p className="text-red-500">{error.message}</p>
+                <p className="text-red-500">{error.toLowerCase()}</p>
               ) : (
-                suggestedMessages.map((message, index) => (
+                suggestions.map((message, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className={`p-3 border rounded cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gray-50"}`}
+                    onClick={() => handleMessageClick(message)}
+                  >
+                    {message}
+                  </Button>
+                ))
+              )}
+            </CardContent>
+          ) : (
+            <CardContent className="flex flex-col space-y-4">
+              {error ? (
+                <p className="text-red-500">{error.toLowerCase()}</p>
+              ) : (
+                innitialMessages.map((message, index) => (
                   <Button
                     key={index}
                     variant="outline"
@@ -224,14 +231,14 @@ export default function SendMessage() {
       </div>
 
       {/* Debug info (remove in production) */}
-      <div className="text-sm text-gray-500">
+      {/* <div className="text-sm text-gray-500">
         <pre className="mt-4 text-xs bg-gray-100 p-2 rounded">
           {JSON.stringify(completion, null, 2)}
         </pre>
 
         <div>Form value: {form.watch("content")}</div>
         <div>Completion: {completion}</div>
-      </div>
+      </div> */}
     </div>
   );
 }
