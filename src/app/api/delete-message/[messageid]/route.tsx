@@ -1,10 +1,11 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { getServerSession, User } from "next-auth";
+import { NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function DELETE(
-  request: Request,
+  request: NextResponse,
   { params }: { params: { messageid: string } }
 ) {
   const messageId = params.messageid;
@@ -36,7 +37,7 @@ export async function DELETE(
         { status: 401 }
       );
     }
-    return Response.json(
+    return NextResponse.json(
       {
         success: true,
         message: "Message Deleted Successfully",

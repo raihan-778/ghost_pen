@@ -3,6 +3,7 @@ import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
 import { DefaultSession, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { CredentialsConfig } from "next-auth/providers/credentials";
 
 declare module "next-auth" {
   interface Session {
@@ -21,6 +22,11 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       name: "credentials",
       credentials: {
+        identifier: {
+          label: "Email or Username",
+          type: "text",
+          placeholder: "email@example.com or username",
+        },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },

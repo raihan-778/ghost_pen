@@ -36,3 +36,18 @@ declare module "next-auth" {
     }
   }
 }
+
+export interface CredentialsInput {
+  identifier: string;
+  password: string;
+}
+
+export interface UserDocument {
+  email: string;
+  username: string;
+  password: string;
+  isVerified: boolean;
+  // Add other user properties here
+}
+
+export type AuthorizeResult = UserDocument | null;
