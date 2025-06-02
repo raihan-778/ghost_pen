@@ -37,6 +37,7 @@ declare module "next-auth" {
   }
 }
 
+<<<<<<< HEAD
 export interface CredentialsInput {
   identifier: string;
   password: string;
@@ -51,3 +52,9 @@ export interface UserDocument {
 }
 
 export type AuthorizeResult = UserDocument | null;
+=======
+export interface Credentials {
+  identifier: string;
+  password: string;
+}
+>>>>>>> 4f1ef450faeff0ecb3fa4e61cccc785e6dc798f9

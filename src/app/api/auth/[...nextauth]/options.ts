@@ -30,6 +30,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
         try {
@@ -57,9 +58,11 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error("Incorrect password");
           }
-        } catch (err: any) {
-          console.error("Error connecting to the database:", err);
-          throw new Error(err);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            console.error("Error connecting to the database:", err.message);
+            throw new Error(err.message);
+          }
         }
       },
     }),

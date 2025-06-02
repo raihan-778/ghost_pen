@@ -78,9 +78,7 @@ export default function SendMessage() {
       }
 
       const newSuggestions = parseStringMessages(fullText);
-      // .split(specialChar)
-      // .map((q) => q.trim())
-      // .filter(Boolean);
+
       setSuggestions(newSuggestions);
     } catch (err) {
       console.error(err);
@@ -88,7 +86,6 @@ export default function SendMessage() {
     } finally {
       setIsSuggestionLoading(false);
     }
-    // Using append() instead of complete()
   };
 
   // const suggestedMessages = parseStringMessages(fullText);
