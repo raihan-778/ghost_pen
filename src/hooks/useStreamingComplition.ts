@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 export function useStreamingCompletion(apiEndpoint: string) {
   const [completion, setCompletion] = useState("");
@@ -31,8 +31,9 @@ export function useStreamingCompletion(apiEndpoint: string) {
         }
 
         setIsLoading(false);
-      } catch (err: any) {
-        console.error("Streaming error:", err);
+      } catch (err: unknown) {
+        if (err instanceof Error)
+          console.error("Streaming error:", err.message);
         setError("Failed to load response.");
         setIsLoading(false);
       }
