@@ -21,11 +21,6 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       name: "credentials",
       credentials: {
-        identifier: {
-          label: "Email or Username",
-          type: "text",
-          placeholder: "email@example.com or username",
-        },
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
