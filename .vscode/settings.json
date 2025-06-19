@@ -1,0 +1,36 @@
+{
+  "highlight-matching-tag.showPath": true,
+  "highlight-matching-tag.showRuler": true,
+  "highlight-matching-tag.highlightSelfClosing": false,
+  "highlight-matching-tag.highlightFromContent": false,
+  "highlight-matching-tag.highlightFromName": true,
+  "highlight-matching-tag.highlightFromAttributes": true,
+  "highlight-matching-tag.noDefaultEmptyElements": false,
+  "highlight-matching-tag.customEmptyElements": null,
+  "highlight-matching-tag.styles": {
+    "opening": { "name": { "underline": "yellow" } },
+    "highlight-matching-tag.showPath.style": {
+      //   "color": "#00d8ff",
+      //   "position": "full"
+    }
+  }
+
+  //   "highlight-matching-tag.styles": {
+  //     "opening": {
+  //       "name": {
+  //         "underline": "yellow"
+  //       },
+
+  //       "backgroundColor": "#1e2a3a",
+  //       "border": "1px solid #00d8ff",
+  //       "color": "#00d8ff",
+  //       "fontWeight": "bold"
+  //     },
+  //     "closing": {
+  //       "backgroundColor": "#1e2a3a",
+  //       "border": "1px solid #00d8ff",
+  //       "color": "#00d8ff",
+  //       "fontWeight": "bold"
+  //     }
+  //   }
+}
