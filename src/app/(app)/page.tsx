@@ -1,16 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import messages from "@/messages.json";
-import Autoplay from "embla-carousel-autoplay";
-import { Mail } from "lucide-react"; // Assuming you have an icon for messages
-
 import HomeComponent from "@/components/Home";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 
 export default function Home() {
   return (
@@ -27,8 +17,9 @@ export default function Home() {
         </section>
 
         {/* Carousel for Messages */}
+
         <HomeComponent />
-        <Carousel
+        {/* <Carousel
           plugins={[Autoplay({ delay: 2000 })]}
           className="w-full max-w-lg md:max-w-xl"
         >
@@ -52,13 +43,13 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-        </Carousel>
+        </Carousel> */}
       </main>
 
       {/* Footer */}
-      <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
+      {/* <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
         © 2023 True Feedback. All rights reserved.
-      </footer>
+      </footer> */}
     </>
   );
 }

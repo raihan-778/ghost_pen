@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import { GlitchButton } from "./GlitchButton";
+import HowItWorksSection from "./HowItWork";
 import { NeonGlitchButton } from "./NeonGlitchButton";
 
 // TypeScript interfaces
@@ -525,7 +526,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Background */}
       <div className="fixed inset-0 aurora-bg">
-        <div className="absolute inset-0 bg-grid opacity-30"></div>
+        <div className="absolute inset-0 styles.bg-grid bg-grid opacity-30"></div>
 
         {/* Animated Liquid Blobs */}
         <div className="absolute top-1/4 left-1/5 w-96 h-96 liquid-blob animate-float opacity-20"></div>
@@ -564,11 +565,7 @@ const HomeComponent: React.FC = () => {
               >
                 Stories
               </a>
-              <button className="gradient-border animate-pulse-glow">
-                <div className="bg-gradient-to-r from-violet-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 transition-all duration-300 px-6 py-2 rounded-full text-sm font-semibold text-white">
-                  Get Started
-                </div>
-              </button>
+              <GlitchButton variant="warning">Get Started</GlitchButton>
             </div>
           </div>
         </nav>
@@ -577,7 +574,7 @@ const HomeComponent: React.FC = () => {
       {/* Enhanced Hero Section */}
       <Motion.Section className="relative min-h-screen flex items-center justify-center px-6">
         <div className="max-w-5xl mx-auto text-center">
-          <Motion.Div className="mb-12">
+          <Motion.Div className="mb-6">
             <div className="inline-flex items-center glass-morphism-strong rounded-full px-6 py-3 mb-12 animate-pulse-glow">
               <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mr-4 animate-pulse"></div>
               <span className="text-sm text-gray-200 font-medium">
@@ -585,7 +582,7 @@ const HomeComponent: React.FC = () => {
               </span>
             </div>
 
-            <h1 className="text-7xl md:text-9xl font-light leading-tight mb-8">
+            <h1 className="text-3xl md:text-5xl font-light leading-tight mb-8">
               <span className="gradient-text text-glow">Anonymous</span>
               <br />
               <span className="text-gray-300 font-extralight">Feedback</span>
@@ -640,7 +637,7 @@ const HomeComponent: React.FC = () => {
             </p>
           </Motion.Div>
 
-          <Motion.Div className="grid md:grid-cols-3 gap-10">
+          <Motion.Div className="grid md:grid-cols-3 gap-12">
             {features.map((feature: Feature, index: number) => {
               const Icon = feature.icon;
               return (
@@ -666,10 +663,10 @@ const HomeComponent: React.FC = () => {
       </Motion.Section>
 
       {/* Enhanced Testimonials Section */}
-      <Motion.Section id="testimonials" className="relative py-32 px-6">
+      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
         <div className="max-w-5xl mx-auto">
           <Motion.Div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
+            <h2 className="text-3xl md:text-7xl font-light gradient-text text-glow mb-6">
               Trusted by Leaders
             </h2>
             <p className="text-2xl text-gray-300 font-light">
@@ -682,9 +679,9 @@ const HomeComponent: React.FC = () => {
           </Motion.Div>
 
           <Motion.Div className="relative">
-            <div className="glass-morphism-strong rounded-3xl p-12 md:p-16 hover-lift animate-pulse-glow">
-              <div className="mb-10">
-                <blockquote className="text-3xl md:text-4xl font-light gradient-text leading-relaxed mb-12 text-glow">
+            <div className="glass-morphism-strong rounded-3xl p-4 md:p-6 hover-lift animate-pulse-glow">
+              <div className="mb-4">
+                <blockquote className="text-xl md:text-2xl font-light gradient-text leading-relaxed mb-12 text-glow">
                   &quot;{testimonials[currentTestimonial].content}&quot;
                 </blockquote>
 
@@ -729,7 +726,7 @@ const HomeComponent: React.FC = () => {
       </Motion.Section>
 
       {/* Enhanced CTA Section */}
-      <Motion.Section className="relative py-32 px-6">
+      <Motion.Section className="relative py-8 mb-3 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <Motion.Div>
             <h2 className="text-6xl md:text-8xl font-light gradient-text text-glow mb-8">

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Ghost, MessageCircle, Shield, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
+import { GlitchButton } from "./GlitchButton";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -70,9 +71,7 @@ const Hero = () => {
               >
                 Features
               </Button>
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                Get Started
-              </Button>
+              <GlitchButton variant="success">Get Started</GlitchButton>
             </div>
           </nav>
 
