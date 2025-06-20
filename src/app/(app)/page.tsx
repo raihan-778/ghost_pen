@@ -5,6 +5,7 @@ import messages from "@/messages.json";
 import Autoplay from "embla-carousel-autoplay";
 import { Mail } from "lucide-react"; // Assuming you have an icon for messages
 
+import HomeComponent from "@/components/Home";
 import {
   Carousel,
   CarouselContent,
@@ -26,6 +27,7 @@ export default function Home() {
         </section>
 
         {/* Carousel for Messages */}
+        <HomeComponent />
         <Carousel
           plugins={[Autoplay({ delay: 2000 })]}
           className="w-full max-w-lg md:max-w-xl"

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Ghost, MessageCircle, Shield, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const GhostPenHero = () => {
+const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -368,4 +368,4 @@ const HowItWorks = () => {
   );
 };
 
-export default GhostPenHero;
+export default Hero;
