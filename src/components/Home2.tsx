@@ -10,14 +10,23 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const InteractiveHomepage = () => {
-  const canvasRef = useRef(null);
+const Homepage2 = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [scrollY, setScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const particlesRef = useRef([]);
-  const animationRef = useRef();
+  type Particle = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    opacity: number;
+    color: string;
+  };
+  const particlesRef = useRef<Particle[]>([]);
+  const animationRef = useRef<number | null>(null);
 
   // Initialize particles
   useEffect(() => {
@@ -37,7 +46,7 @@ const InteractiveHomepage = () => {
   }, []);
 
   // Mouse tracking
-  const handleMouseMove = useCallback((e) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     setMousePos({ x: e.clientX, y: e.clientY });
   }, []);
 
@@ -63,6 +72,7 @@ const InteractiveHomepage = () => {
     window.addEventListener("resize", resizeCanvas);
 
     const animate = () => {
+      if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw particles
@@ -392,7 +402,7 @@ const InteractiveHomepage = () => {
           <div className="relative">
             <div className="backdrop-blur-md bg-white/5 rounded-2xl p-12 border border-white/10">
               <blockquote className="text-2xl md:text-3xl font-light text-white leading-relaxed mb-8">
-                "{testimonials[currentTestimonial].content}"
+                `{testimonials[currentTestimonial].content}`
               </blockquote>
 
               <div className="flex items-center justify-between">
@@ -510,4 +520,4 @@ const InteractiveHomepage = () => {
   );
 };
 
-export default InteractiveHomepage;
+export default Homepage2;

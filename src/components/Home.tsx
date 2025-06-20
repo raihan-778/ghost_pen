@@ -7,9 +7,9 @@ import {
   Zap,
 } from "lucide-react";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
+import FeaturesShowcase from "./FeaturesShowcase";
 import { GlitchButton } from "./GlitchButton";
 import HowItWorksSection from "./HowItWork";
-import { NeonGlitchButton } from "./NeonGlitchButton";
 
 // TypeScript interfaces
 interface Testimonial {
@@ -606,17 +606,34 @@ const HomeComponent: React.FC = () => {
               <GlitchButton>
                 <span>Start Free Trial</span>
               </GlitchButton>
-              <NeonGlitchButton>
-                <span>Watch Demo</span>
-              </NeonGlitchButton>
-
-              <button className="text-gray-200 hover:text-white transition-all duration-300 px-10 py-5 flex items-center space-x-3 glass-morphism rounded-full hover-lift group">
-                <span className="font-medium">Watch Demo</span>
-                <div className="w-10 h-10 glass-morphism-strong rounded-full flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-pink-600 transition-all duration-300">
-                  <div className="w-0 h-0 border-l-[8px] border-l-white border-y-[5px] border-y-transparent ml-1"></div>
+              <GlitchButton variant="ghost">
+                <div className="flex items-center space-x-3">
+                  {" "}
+                  <span>Watch Demo</span>
+                  <div className="w-6 h-6 glass-morphism-strong rounded-full flex items-center justify-center group-hover:bg-gradient-to-r group-hover:from-violet-600 group-hover:to-pink-600 transition-all duration-300">
+                    <div className="w-0 h-0 border-l-[8px] border-l-white border-y-[5px] border-y-transparent ml-1"></div>
+                  </div>
                 </div>
-              </button>
+              </GlitchButton>
             </div>
+          </Motion.Div>
+        </div>
+      </Motion.Section>
+
+      {/* How it Work Section */}
+      <Motion.Section className="relative py-8 mb-3 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <Motion.Div>
+            <HowItWorksSection />
+          </Motion.Div>
+        </div>
+      </Motion.Section>
+
+      {/* Features Showcase Section */}
+      <Motion.Section className="relative py-8 mb-3 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <Motion.Div>
+            <FeaturesShowcase />
           </Motion.Div>
         </div>
       </Motion.Section>
@@ -725,7 +742,6 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
-      {/* Enhanced CTA Section */}
       <Motion.Section className="relative py-8 mb-3 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <Motion.Div>
@@ -747,14 +763,13 @@ const HomeComponent: React.FC = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-              <button className="group relative">
-                <div className="gradient-border animate-pulse-glow">
-                  <div className="bg-gradient-to-r from-violet-600 via-pink-600 to-blue-600 hover:from-violet-500 hover:via-pink-500 hover:to-blue-500 transition-all duration-500 px-16 py-6 rounded-full flex items-center space-x-4 group-hover:transform group-hover:scale-110 text-white font-bold text-xl">
-                    <span>Start Your Journey</span>
-                    <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
-                  </div>
+              <GlitchButton variant="success">
+                <div className="flex justify-center space-x-2">
+                  {" "}
+                  <span>Start Your Journey</span>
+                  <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
                 </div>
-              </button>
+              </GlitchButton>
 
               <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-300">
                 <div className="flex items-center space-x-3">
