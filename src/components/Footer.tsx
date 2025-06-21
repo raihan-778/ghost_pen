@@ -1,11 +1,11 @@
+'use client';
+
 import {
   ChevronUp,
   Code,
   ExternalLink,
-  Github,
   Globe,
   Heart,
-  Instagram,
   Lock,
   MessageCircle,
   Monitor,
@@ -18,6 +18,41 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
+// Type definitions
+interface FooterLink {
+  name: string;
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+interface FooterLinksType {
+  product: FooterLink[];
+  company: FooterLink[];
+  support: FooterLink[];
+  legal: FooterLink[];
+}
+
+interface SocialLink {
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  label: string;
+  color: string;
+  bgGradient: string;
+  count: string;
+}
+
+interface AppDownload {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  users: string;
+  gradient: string;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
 
 const FooterSection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -97,7 +132,7 @@ const FooterSection = () => {
   type FooterLink = {
     name: string;
     href: string;
-    icon?: React.ComponentType<any>;
+    icon?: React.ComponentType<unknown>;
   };
 
   const footerLinks: {
@@ -142,7 +177,7 @@ const FooterSection = () => {
 
   const socialLinks = [
     {
-      icon: Instagram,
+      icon: "Twitter",
       href: "#",
       label: "Twitter",
       color: "hover:text-blue-400",
@@ -150,7 +185,7 @@ const FooterSection = () => {
       count: "12.5K",
     },
     {
-      icon: Github,
+      icon: "Github",
       href: "#",
       label: "GitHub",
       color: "hover:text-gray-300",
@@ -166,7 +201,7 @@ const FooterSection = () => {
       count: "5.8K",
     },
     {
-      icon: Instagram,
+      icon: "Instagram",
       href: "#",
       label: "Instagram",
       color: "hover:text-pink-400",
@@ -710,3 +745,6 @@ const FooterSection = () => {
 };
 
 export default FooterSection;
+
+
+
