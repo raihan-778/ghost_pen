@@ -9,7 +9,7 @@ import {
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import FAQSection from "./FAQ";
 import FeaturesShowcase from "./FeaturesShowcase";
-import FooterSection from "./Footer";
+import FooterSection2 from "./Footer2";
 import { GlitchButton } from "./GlitchButton";
 import HowItWorksSection from "./HowItWork";
 import SecuritySection from "./SecuritySection";
@@ -549,36 +549,10 @@ const HomeComponent: React.FC = () => {
         </div>
       </div>
 
-      {/* Hero One */}
-      {/* <Motion.Div className="fixed top-0 left-0 right-0 z-50 glass-morphism-strong">
-        <nav className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold accent-gradient text-glow">
-              TrueFeedback
-            </div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#features"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:text-glow"
-              >
-                Features
-              </a>
-              <a
-                href="#testimonials"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:text-glow"
-              >
-                Stories
-              </a>
-              <GlitchButton variant="warning">Get Started</GlitchButton>
-            </div>
-          </div>
-        </nav>
-      </Motion.Div> */}
-
       {/* Enhanced Hero Section */}
 
       <Motion.Section className="relative min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <Motion.Div className="mb-6">
             <div className="inline-flex items-center glass-morphism-strong rounded-full px-6 py-3 mb-12 animate-pulse-glow">
               <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mr-4 animate-pulse"></div>
@@ -627,7 +601,7 @@ const HomeComponent: React.FC = () => {
 
       {/* How it Work Section */}
       <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <Motion.Div>
             <HowItWorksSection />
           </Motion.Div>
@@ -636,7 +610,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Features Showcase Section */}
       <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <Motion.Div>
             <FeaturesShowcase />
           </Motion.Div>
@@ -645,7 +619,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Features Section */}
       <Motion.Section id="features" className="relative py-32 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto text-center">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
               Built for Modern Teams
@@ -686,11 +660,13 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Testimonials Section */}
       <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
-        <TestimonialsSection />
+        <div className="max-w-7xl mx-auto text-center">
+          <TestimonialsSection />
+        </div>
       </Motion.Section>
 
       <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-3xl md:text-7xl font-light gradient-text text-glow mb-6">
               Trusted by Leaders
@@ -752,7 +728,7 @@ const HomeComponent: React.FC = () => {
       </Motion.Section>
 
       <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <Motion.Div>
             <h2 className="text-6xl md:text-8xl font-light gradient-text text-glow mb-8">
               Ready to Transform
@@ -842,7 +818,7 @@ const HomeComponent: React.FC = () => {
         <FAQSection />
       </Motion.Section>
       <Motion.Section className="relative border-t border-violet-900/30">
-        <FooterSection />
+        <FooterSection2 />
       </Motion.Section>
     </>
   );

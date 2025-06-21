@@ -1,6 +1,14 @@
 "use client";
 
 import {
+  AnimatePresence,
+  easeInOut,
+  easeOut,
+  motion,
+  useAnimation,
+  useInView,
+} from "framer-motion";
+import {
   ChevronUp,
   Code,
   ExternalLink,
@@ -9,23 +17,20 @@ import {
   Lock,
   MessageCircle,
   Monitor,
-  Send,
   Shield,
   Smartphone,
   Sparkles,
   Star,
   Users,
   Zap,
-  tw,
 } from "lucide-react";
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  motion,
-  useAnimation,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
-import { easeOut, easeInOut } from "framer-motion";
+  TbBrandGithub,
+  TbBrandInstagram,
+  TbBrandLinkedin,
+  TbBrandTwitter,
+} from "react-icons/tb";
 // Using native HTML elements instead of shadcn for compatibility
 
 // Type definitions
@@ -96,7 +101,7 @@ const sparkleVariants = {
   },
 };
 
-const FooterSection = () => {
+const FooterSection2 = () => {
   const [email, setEmail] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
@@ -198,7 +203,7 @@ const FooterSection = () => {
 
   const socialLinks: SocialLink[] = [
     {
-      icon: Twitter,
+      icon: TbBrandTwitter,
       href: "#",
       label: "Twitter",
       color: "hover:text-blue-400",
@@ -206,7 +211,7 @@ const FooterSection = () => {
       count: "12.5K",
     },
     {
-      icon: Github,
+      icon: TbBrandGithub,
       href: "#",
       label: "GitHub",
       color: "hover:text-gray-300",
@@ -214,7 +219,7 @@ const FooterSection = () => {
       count: "8.2K",
     },
     {
-      icon: Linkedin,
+      icon: TbBrandLinkedin,
       href: "#",
       label: "LinkedIn",
       color: "hover:text-blue-500",
@@ -222,7 +227,7 @@ const FooterSection = () => {
       count: "5.8K",
     },
     {
-      icon: Instagram,
+      icon: TbBrandInstagram,
       href: "#",
       label: "Instagram",
       color: "hover:text-pink-400",
@@ -729,4 +734,4 @@ const FooterSection = () => {
   );
 };
 
-export default FooterSection;
+export default FooterSection2;

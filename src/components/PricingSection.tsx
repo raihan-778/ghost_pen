@@ -119,7 +119,7 @@ const PricingSection = () => {
   ];
 
   return (
-    <div className="bg-black">
+    <div className="bg-black ">
       {/* Pricing Section */}
       <section
         id="pricing"

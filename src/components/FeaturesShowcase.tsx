@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
 import {
-  Bot,
-  Shield,
-  Zap,
-  MessageSquare,
-  Eye,
-  EyeOff,
-  Sparkles,
-  Lock,
-  Globe,
-  Smartphone,
-  Users,
   ArrowRight,
-  Play,
+  Bot,
+  EyeOff,
+  Globe,
+  Lock,
   Pause,
+  Play,
   RotateCcw,
+  Shield,
+  Smartphone,
+  Sparkles,
+  Users,
+  Zap,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const FeaturesShowcase = () => {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -111,7 +109,7 @@ const FeaturesShowcase = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 py-20 px-6">
-      <div className="container mx-auto max-w-7xl">
+      <div className="container mx-auto mx-w-7xl">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
