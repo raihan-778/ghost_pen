@@ -7,9 +7,13 @@ import {
   Zap,
 } from "lucide-react";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
+import FAQSection from "./FAQ";
 import FeaturesShowcase from "./FeaturesShowcase";
+import FooterSection from "./Footer";
 import { GlitchButton } from "./GlitchButton";
 import HowItWorksSection from "./HowItWork";
+import SecuritySection from "./SecuritySection";
+import TestimonialsSection from "./Testimonial";
 
 // TypeScript interfaces
 interface Testimonial {
@@ -545,8 +549,8 @@ const HomeComponent: React.FC = () => {
         </div>
       </div>
 
-      {/* Enhanced Navigation */}
-      <Motion.Div className="fixed top-0 left-0 right-0 z-50 glass-morphism-strong">
+      {/* Hero One */}
+      {/* <Motion.Div className="fixed top-0 left-0 right-0 z-50 glass-morphism-strong">
         <nav className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold accent-gradient text-glow">
@@ -569,9 +573,10 @@ const HomeComponent: React.FC = () => {
             </div>
           </div>
         </nav>
-      </Motion.Div>
+      </Motion.Div> */}
 
       {/* Enhanced Hero Section */}
+
       <Motion.Section className="relative min-h-screen flex items-center justify-center px-6">
         <div className="max-w-5xl mx-auto text-center">
           <Motion.Div className="mb-6">
@@ -681,6 +686,10 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Testimonials Section */}
       <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
+        <TestimonialsSection />
+      </Motion.Section>
+
+      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
         <div className="max-w-5xl mx-auto">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-3xl md:text-7xl font-light gradient-text text-glow mb-6">
@@ -787,6 +796,7 @@ const HomeComponent: React.FC = () => {
       </Motion.Section>
 
       {/* Enhanced Footer */}
+
       <Motion.Section className="relative border-t border-violet-900/30">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -824,6 +834,15 @@ const HomeComponent: React.FC = () => {
             </div>
           </div>
         </div>
+      </Motion.Section>
+      <Motion.Section>
+        <SecuritySection />
+      </Motion.Section>
+      <Motion.Section>
+        <FAQSection />
+      </Motion.Section>
+      <Motion.Section className="relative border-t border-violet-900/30">
+        <FooterSection />
       </Motion.Section>
     </>
   );
