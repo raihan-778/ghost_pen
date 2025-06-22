@@ -218,7 +218,7 @@ const FAQSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden"
+      className="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden max-w-7xl rounded-3xl shadow-2xl mx-auto border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
     >
       {/* Background Elements */}
       <div className="absolute inset-0">

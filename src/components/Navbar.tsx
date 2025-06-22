@@ -18,10 +18,10 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Features", href: "#features", icon: Zap },
+    { name: "Home", href: "/", icon: Zap },
     { name: "How it Works", href: "#how-it-works", icon: MessageCircle },
     { name: "Privacy", href: "#privacy", icon: Shield },
-    { name: "Community", href: "#community", icon: Users },
+    { name: "Login", href: "/sign-in", icon: Users },
   ];
 
   return (
@@ -43,7 +43,7 @@ const Navbar = () => {
               <div className="absolute -inset-1 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-lg opacity-0 group-hover:opacity-20 blur transition-opacity duration-300"></div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              AnonMsg
+              GhostPen
             </span>
           </div>
 
@@ -75,7 +75,7 @@ const Navbar = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <button className="group relative px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 hover:scale-105">
-              <span className="relative z-10">Get Started</span>
+              <span className="relative z-10">Login</span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             </button>

@@ -101,7 +101,7 @@ const sparkleVariants = {
   },
 };
 
-const FooterSection2 = () => {
+const FooterSection = () => {
   const [email, setEmail] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [hoveredSocial, setHoveredSocial] = useState<number | null>(null);
@@ -303,7 +303,7 @@ const FooterSection2 = () => {
   );
 
   return (
-    <div className="bg-black">
+    <div className="bg-black mx-auto ">
       <motion.footer
         ref={footerRef}
         initial="hidden"
@@ -734,4 +734,4 @@ const FooterSection2 = () => {
   );
 };
 
-export default FooterSection2;
+export default FooterSection;

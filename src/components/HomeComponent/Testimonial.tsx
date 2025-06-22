@@ -15,11 +15,11 @@ import { useEffect, useRef, useState } from "react";
 
 const TestimonialsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [visibleCards, setVisibleCards] = useState([]);
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-  const intervalRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const testimonials = [
     {
@@ -164,7 +164,7 @@ const TestimonialsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden"
+      className="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden rounded-3xl shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
     >
       {/* Background Elements */}
       <div className="absolute inset-0">
@@ -207,8 +207,8 @@ const TestimonialsSection = () => {
 
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Join thousands of satisfied users who trust our platform for secure,
-            anonymous communication. Here's what they have to say about their
-            experience.
+            anonymous communication. Here&apos;s what they have to say about
+            their experience.
           </p>
         </div>
 

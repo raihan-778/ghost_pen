@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [hoveredPlan, setHoveredPlan] = useState(null);
+  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
 
   const pricingRef = useRef(null);
 
@@ -119,12 +119,12 @@ const PricingSection = () => {
   ];
 
   return (
-    <div className="bg-black ">
+    <div className="bg-black py-20 px-4 sm:px-6 lg:px-8 ">
       {/* Pricing Section */}
       <section
         id="pricing"
         ref={pricingRef}
-        className="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden"
+        className="py-20 bg-gradient-to-b  max-w-7xl from-black via-gray-900 to-black relative overflow-hidden rounded-3xl shadow-2xl mx-auto border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
       >
         {/* Background Elements */}
         <div className="absolute inset-0">
@@ -165,7 +165,7 @@ const PricingSection = () => {
               </span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-6xl font-bold py-2 mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
               Simple, Transparent Pricing
             </h2>
 
@@ -314,7 +314,7 @@ const PricingSection = () => {
               </h3>
               <p className="text-gray-300 mb-6">
                 Contact our sales team for enterprise pricing and custom
-                features tailored to your organization's needs.
+                features tailored to your organization&apos;s needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">

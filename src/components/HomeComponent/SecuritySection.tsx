@@ -159,7 +159,7 @@ const SecuritySection = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-b  from-black via-gray-900 to-black relative overflow-hidden"
+      className="py-20 bg-gradient-to-b max-w-7xl mx-auto mb-16 px-4 sm:px-6 lg:px-8 from-black via-gray-900 to-black relative overflow-hidden rounded-3xl  shadow-2xl  border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
     >
       {/* Background Elements */}
       <div className="absolute inset-0">

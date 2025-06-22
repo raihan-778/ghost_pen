@@ -1,17 +1,12 @@
-import {
-  ArrowRight,
-  Check,
-  LucideIcon,
-  MessageCircle,
-  Shield,
-  Zap,
-} from "lucide-react";
+import { LucideIcon, MessageCircle, Shield, Zap } from "lucide-react";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
+import { GlitchButton } from "../GlitchButton";
+import CTASection from "./CallToAction";
 import FAQSection from "./FAQ";
 import FeaturesShowcase from "./FeaturesShowcase";
-import FooterSection2 from "./Footer2";
-import { GlitchButton } from "./GlitchButton";
+import FooterSection from "./Footer";
 import HowItWorksSection from "./HowItWork";
+import PricingSection from "./PricingSection";
 import SecuritySection from "./SecuritySection";
 import TestimonialsSection from "./Testimonial";
 
@@ -599,72 +594,6 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
-      {/* How it Work Section */}
-      <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <Motion.Div>
-            <HowItWorksSection />
-          </Motion.Div>
-        </div>
-      </Motion.Section>
-
-      {/* Features Showcase Section */}
-      <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <Motion.Div>
-            <FeaturesShowcase />
-          </Motion.Div>
-        </div>
-      </Motion.Section>
-
-      {/* Enhanced Features Section */}
-      <Motion.Section id="features" className="relative py-32 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <Motion.Div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
-              Built for Modern Teams
-            </h2>
-            <p className="text-2xl text-gray-300 max-w-3xl mx-auto font-light">
-              Enterprise-grade security meets
-              <span className="accent-gradient font-semibold">
-                {" "}
-                intuitive design excellence
-              </span>
-            </p>
-          </Motion.Div>
-
-          <Motion.Div className="grid md:grid-cols-3 gap-12">
-            {features.map((feature: Feature, index: number) => {
-              const Icon = feature.icon;
-              return (
-                <Motion.Div
-                  key={index}
-                  className="glass-morphism-strong rounded-3xl p-10 hover-lift group animate-pulse-glow"
-                  style={{ animationDelay: `${index * 300}ms` }}
-                >
-                  <div className="glass-morphism w-20 h-20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-125 transition-all duration-500 bg-gradient-to-br from-blue-800/30 to-indigo-700/30">
-                    <Icon className="w-10 h-10 text-blue-400 group-hover:text-indigo-300 transition-colors duration-500" />
-                  </div>
-                  <h3 className="text-2xl font-semibold gradient-text mb-6 text-glow">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed text-lg font-light">
-                    {feature.description}
-                  </p>
-                </Motion.Div>
-              );
-            })}
-          </Motion.Div>
-        </div>
-      </Motion.Section>
-
-      {/* Enhanced Testimonials Section */}
-      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <TestimonialsSection />
-        </div>
-      </Motion.Section>
-
       <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <Motion.Div className="text-center mb-20">
@@ -727,98 +656,95 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
+      {/* How it Work Section */}
       <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className=" mx-auto text-center">
           <Motion.Div>
-            <h2 className="text-6xl md:text-8xl font-light gradient-text text-glow mb-8">
-              Ready to Transform
-              <br />
-              <span className="accent-gradient font-bold animate-shimmer">
-                Your Organization?
-              </span>
-            </h2>
-
-            <p className="text-2xl text-gray-300 mb-16 max-w-3xl mx-auto font-light leading-relaxed">
-              Join thousands of teams already using
-              <span className="accent-gradient font-semibold">
-                {" "}
-                anonymous feedback
-              </span>{" "}
-              to drive meaningful change.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-              <GlitchButton variant="success">
-                <div className="flex justify-center space-x-2">
-                  {" "}
-                  <span>Start Your Journey</span>
-                  <ArrowRight className="w-6 h-6 transition-transform group-hover:translate-x-2" />
-                </div>
-              </GlitchButton>
-
-              <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-gray-300">
-                <div className="flex items-center space-x-3">
-                  <Check className="w-5 h-5 text-emerald-400" />
-                  <span className="font-medium">Free 14-day trial</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Check className="w-5 h-5 text-emerald-400" />
-                  <span className="font-medium">No credit card required</span>
-                </div>
-              </div>
-            </div>
+            <HowItWorksSection />
           </Motion.Div>
         </div>
       </Motion.Section>
 
-      {/* Enhanced Footer */}
-
-      <Motion.Section className="relative border-t border-violet-900/30">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-8 md:mb-0 text-center md:text-left">
-              <div className="text-3xl font-bold accent-gradient text-glow mb-3">
-                TrueFeedback
-              </div>
-              <p className="text-gray-300 font-light">
-                Empowering authentic communication worldwide
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-10">
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:text-glow font-medium"
-              >
-                Privacy
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:text-glow font-medium"
-              >
-                Terms
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white transition-all duration-300 hover:text-glow font-medium"
-              >
-                Support
-              </a>
-              <div className="text-gray-400 font-light">
-                © 2025 TrueFeedback
-              </div>
-            </div>
-          </div>
+      {/* Features Showcase Section */}
+      <Motion.Section className="relative py-8 mb-3 px-4">
+        <div className=" mx-auto text-center">
+          <Motion.Div>
+            <FeaturesShowcase />
+          </Motion.Div>
         </div>
       </Motion.Section>
+
+      {/* Enhanced Features Section */}
+      <Motion.Section id="features" className="relative py-32 px-6">
+        <div className=" mx-auto text-center">
+          <Motion.Div className="text-center mb-20">
+            <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
+              Built for Modern Teams
+            </h2>
+            <p className="text-2xl text-gray-300 max-w-3xl mx-auto font-light">
+              Enterprise-grade security meets
+              <span className="accent-gradient font-semibold">
+                {" "}
+                intuitive design excellence
+              </span>
+            </p>
+          </Motion.Div>
+
+          <Motion.Div className="grid md:grid-cols-3 gap-12">
+            {features.map((feature: Feature, index: number) => {
+              const Icon = feature.icon;
+              return (
+                <Motion.Div
+                  key={index}
+                  className="glass-morphism-strong rounded-3xl p-10 hover-lift group animate-pulse-glow"
+                  style={{ animationDelay: `${index * 300}ms` }}
+                >
+                  <div className="glass-morphism w-20 h-20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-125 transition-all duration-500 bg-gradient-to-br from-blue-800/30 to-indigo-700/30">
+                    <Icon className="w-10 h-10 text-blue-400 group-hover:text-indigo-300 transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-2xl font-semibold gradient-text mb-6 text-glow">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed text-lg font-light">
+                    {feature.description}
+                  </p>
+                </Motion.Div>
+              );
+            })}
+          </Motion.Div>
+        </div>
+      </Motion.Section>
+
+      {/* Enhanced Testimonials Section */}
+      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <TestimonialsSection />
+        </div>
+      </Motion.Section>
+
+      {/* CTA Section */}
+
+      <CTASection />
+
+      {/* Security Section */}
+
       <Motion.Section>
         <SecuritySection />
       </Motion.Section>
+
+      {/* FAQ Section */}
       <Motion.Section>
         <FAQSection />
       </Motion.Section>
+
+      {/* Pricing Plan */}
+      <Motion.Section>
+        <PricingSection />
+      </Motion.Section>
+
+      {/* Enhanced Footer */}
       <Motion.Section className="relative border-t border-violet-900/30">
-        <FooterSection2 />
+        <FooterSection />
       </Motion.Section>
     </>
   );

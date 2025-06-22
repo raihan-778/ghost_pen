@@ -1,0 +1,79 @@
+[
+  {
+    "id": "free",
+    "name": "Free",
+    "subtitle": "Perfect for personal use",
+    "monthlyPrice": 0,
+    "annualPrice": 0,
+    "popular": false,
+    "features": [
+      "End-to-end encryption",
+      "Up to 5 contacts",
+      "Basic messaging",
+      "7-day message history",
+      "Web access only",
+      "Community support"
+    ],
+    "limitations": [
+      "No file sharing",
+      "No group chats",
+      "Limited customization"
+    ],
+    "icon": null,
+    "gradient": "from-gray-600 to-gray-800",
+    "borderColor": "border-gray-700",
+    "buttonStyle": "bg-gray-700 hover:bg-gray-600 text-white"
+  },
+  {
+    "id": "pro",
+    "name": "Pro",
+    "subtitle": "For professionals & teams",
+    "monthlyPrice": 9.99,
+    "annualPrice": 7.99,
+    "popular": true,
+    "features": [
+      "Everything in Free",
+      "Unlimited contacts",
+      "Group chats (up to 50)",
+      "File sharing (100MB)",
+      "30-day message history",
+      "All platforms access",
+      "Priority support",
+      "Advanced encryption",
+      "Custom themes",
+      "Message scheduling"
+    ],
+    "limitations": [],
+    "icon": null,
+    "gradient": "from-purple-600 to-blue-600",
+    "borderColor": "border-purple-500",
+    "buttonStyle": "bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-lg hover:shadow-purple-500/25 text-white"
+  },
+  {
+    "id": "enterprise",
+    "name": "Enterprise",
+    "subtitle": "For large organizations",
+    "monthlyPrice": 29.99,
+    "annualPrice": 24.99,
+    "popular": false,
+    "features": [
+      "Everything in Pro",
+      "Unlimited group size",
+      "Unlimited file sharing",
+      "1-year message history",
+      "Advanced admin controls",
+      "SSO integration",
+      "Dedicated support",
+      "Custom branding",
+      "Audit logs",
+      "API access",
+      "On-premise deployment",
+      "24/7 phone support"
+    ],
+    "limitations": [],
+    "icon": null,
+    "gradient": "from-yellow-500 to-orange-600",
+    "borderColor": "border-yellow-500",
+    "buttonStyle": "bg-gradient-to-r from-yellow-500 to-orange-600 hover:shadow-lg hover:shadow-yellow-500/25 text-black font-semibold"
+  }
+]
