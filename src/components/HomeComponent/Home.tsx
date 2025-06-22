@@ -546,7 +546,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Hero Section */}
 
-      <Motion.Section className="relative min-h-screen flex items-center justify-center px-6">
+      <Motion.Section className="relative min-h-screen mb-8 flex items-center justify-center px-6">
         <div className="max-w-7xl mx-auto text-center">
           <Motion.Div className="mb-6">
             <div className="inline-flex items-center glass-morphism-strong rounded-full px-6 py-3 mb-12 animate-pulse-glow">
@@ -594,8 +594,8 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
-      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
-        <div className="max-w-7xl mx-auto">
+      <Motion.Section id="testimonials" className="relative mb-8">
+        <div className="max-w-7xl rounded-3xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-3xl md:text-7xl font-light gradient-text text-glow mb-6">
               Trusted by Leaders
@@ -655,28 +655,12 @@ const HomeComponent: React.FC = () => {
           </Motion.Div>
         </div>
       </Motion.Section>
-
-      {/* How it Work Section */}
-      <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className=" mx-auto text-center">
-          <Motion.Div>
-            <HowItWorksSection />
-          </Motion.Div>
-        </div>
-      </Motion.Section>
-
-      {/* Features Showcase Section */}
-      <Motion.Section className="relative py-8 mb-3 px-4">
-        <div className=" mx-auto text-center">
-          <Motion.Div>
-            <FeaturesShowcase />
-          </Motion.Div>
-        </div>
-      </Motion.Section>
-
       {/* Enhanced Features Section */}
-      <Motion.Section id="features" className="relative py-32 px-6">
-        <div className=" mx-auto text-center">
+      <Motion.Section
+        id="features"
+        className="relative max-w-7xl mb-8 rounded-3xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
+      >
+        <div className=" mx-auto text-center py-8 lg:py-12 px-8 lg:px-12">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
               Built for Modern Teams
@@ -715,8 +699,26 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
+      {/* How it Work Section */}
+      <Motion.Section className="relative">
+        <div className=" mx-auto text-center">
+          <Motion.Div>
+            <HowItWorksSection />
+          </Motion.Div>
+        </div>
+      </Motion.Section>
+
+      {/* Features Showcase Section */}
+      <Motion.Section className="relative">
+        <div className=" mx-auto text-center">
+          <Motion.Div>
+            <FeaturesShowcase />
+          </Motion.Div>
+        </div>
+      </Motion.Section>
+
       {/* Enhanced Testimonials Section */}
-      <Motion.Section id="testimonials" className="relative my-1 py-32 px-6">
+      <Motion.Section id="testimonials " className="relative">
         <div className="max-w-7xl mx-auto text-center">
           <TestimonialsSection />
         </div>
