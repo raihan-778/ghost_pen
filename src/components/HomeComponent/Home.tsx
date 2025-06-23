@@ -546,7 +546,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Hero Section */}
 
-      <Motion.Section className="relative max-w-7xl mt-16 min-h-screen mb-8 flex items-center justify-center px-6">
+      <Motion.Section className="relative max-w-7xl mx-auto  mt-16 min-h-screen mb-8 flex items-center justify-center px-6">
         <div className=" mx-auto text-center">
           <Motion.Div className="mb-6">
             <div className="inline-flex items-center glass-morphism-strong rounded-full px-6 py-3 mb-12 animate-pulse-glow">
@@ -596,7 +596,7 @@ const HomeComponent: React.FC = () => {
 
       <Motion.Section
         id="testimonials"
-        className="relative px-8 lg:px-12 mb-8 max-w-7xl"
+        className="relative mx-auto px-8 lg:px-12 mb-8 max-w-7xl"
       >
         <div className=" rounded-3xl max-w-7xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
           <Motion.Div className="text-center mb-20">
@@ -679,14 +679,13 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Testimonials Section */}
       <Motion.Section id="testimonials " className="relative">
-        <div className="">
-          <TestimonialsSection />
-        </div>
+        <TestimonialsSection />
       </Motion.Section>
 
       {/* CTA Section */}
-
-      <CTASection />
+      <Motion.Section className="relative">
+        <CTASection />
+      </Motion.Section>
 
       {/* Security Section */}
 

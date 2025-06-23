@@ -201,7 +201,7 @@ const SecuritySection = () => {
               </span>
             </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-6xl py-2 font-bold mb-6 bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
               Unbreakable Security
             </h2>
 

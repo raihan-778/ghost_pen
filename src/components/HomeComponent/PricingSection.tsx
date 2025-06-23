@@ -119,12 +119,12 @@ const PricingSection = () => {
   ];
 
   return (
-    <div className="bg-black py-20 px-4 sm:px-6 lg:px-8 ">
+    <div className="bg-black mx-auto py-10 max-w-7xl px-4 sm:px-6 lg:px-8 ">
       {/* Pricing Section */}
       <section
         id="pricing"
         ref={pricingRef}
-        className="py-20 bg-gradient-to-b  max-w-7xl from-black via-gray-900 to-black relative overflow-hidden rounded-3xl shadow-2xl mx-auto border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
+        className="py-20 bg-gradient-to-b  from-black via-gray-900 to-black relative overflow-hidden rounded-3xl shadow-2xl mx-auto border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
       >
         {/* Background Elements */}
         <div className="absolute inset-0">
