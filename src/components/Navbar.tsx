@@ -1,7 +1,10 @@
 // import React, { useState, useEffect } from 'react';
 "use client";
 import { Menu, MessageCircle, Shield, Users, X, Zap } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { GlitchButton } from "./GlitchButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,12 +20,18 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const session = useSession();
+
+  const { data } = session;
+
   const navItems = [
     { name: "Home", href: "/", icon: Zap },
     { name: "How it Works", href: "#how-it-works", icon: MessageCircle },
     { name: "Privacy", href: "#privacy", icon: Shield },
-    { name: "Login", href: "/sign-in", icon: Users },
+    { name: "Dashboard", href: "/dashboard", icon: Users },
   ];
+
+  // const user=
 
   return (
     <nav
@@ -74,11 +83,16 @@ const Navbar = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <button className="group relative px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 hover:scale-105">
-              <span className="relative z-10">Login</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-            </button>
+            {data?.user ? (
+              <GlitchButton variant={"success"}>Logout</GlitchButton>
+            ) : (
+              <Link href="/sign-in">
+                {" "}
+                <GlitchButton variant="destructive" value="Login">
+                  <span className="relative z-10">Login</span>
+                </GlitchButton>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -131,9 +145,15 @@ const Navbar = () => {
             );
           })}
           <div className="pt-4 mt-4 border-t border-white/10">
-            <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25">
-              Get Started
-            </button>
+            {data?.user ? (
+              <GlitchButton variant={"success"}>Logout</GlitchButton>
+            ) : (
+              <Link href="/sign-in">
+                <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25">
+                  Login
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
