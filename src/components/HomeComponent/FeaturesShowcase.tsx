@@ -14,6 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { GlitchButton } from "../GlitchButton";
 
 const FeaturesShowcase = () => {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -108,7 +109,7 @@ const FeaturesShowcase = () => {
   const currentFeature = features[activeFeature];
 
   return (
-    <div className=" mx-auto py-20 px-4 sm:px-6 lg:px-8 max-w-7xl">
+    <div className=" mx-auto py-10 px-4 sm:px-6 lg:px-8 max-w-7xl">
       <div className="bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden  rounded-3xl shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
         <div className=" container mx-auto py-8 lg:py-12 px-8 lg:px-12 ">
           {/* Section Header */}
@@ -465,10 +466,15 @@ const FeaturesShowcase = () => {
 
           {/* CTA */}
           <div className="text-center mt-16">
-            <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 mx-auto">
-              Try Ghost Pen Now
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <div className="text-center mt-16">
+              <GlitchButton variant="default">
+                <div className="flex items-center space-x-3">
+                  Try Ghost Pen Now
+                  <ArrowRight className="w-5 h-5" />
+                </div>
+              </GlitchButton>
+            </div>
+            <ArrowRight className="w-5 h-5" />
           </div>
         </div>
       </div>

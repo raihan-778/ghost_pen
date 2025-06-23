@@ -9,6 +9,7 @@ import {
   Zap,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { GlitchButton } from "../GlitchButton";
 
 const HowItWorksSection = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -70,7 +71,7 @@ const HowItWorksSection = () => {
   };
 
   return (
-    <div className="py-20 px-4 sm:px-6 max-w-7xl mx-auto lg:px-8 ">
+    <div className="py-10 px-4 sm:px-6 max-w-7xl mx-auto lg:px-8 ">
       <div className="bg-gradient-to-b from-black via-gray-900 to-black relative overflow-hidden  rounded-3xl shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
         <div className="container mx-auto py-8 lg:py-12 px-8 lg:px-12">
           {/* Section Header */}
@@ -94,7 +95,7 @@ const HowItWorksSection = () => {
                 onClick={() => handleStepClick(index)}
                 className={`flex items-center gap-3 px-6 py-3 rounded-full transition-all duration-300 ${
                   activeStep === index
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg scale-105"
+                    ? `bg-gradient-to-r ${step.color} text-white shadow-lg scale-105`
                     : "bg-white/10 text-gray-300 hover:bg-white/20"
                 }`}
               >
@@ -324,10 +325,12 @@ const HowItWorksSection = () => {
 
           {/* Bottom CTA */}
           <div className="text-center mt-16">
-            <button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 mx-auto">
-              Ready to Start?
-              <ArrowRight className="w-5 h-5" />
-            </button>
+            <GlitchButton variant="default">
+              <div className="flex items-center space-x-3">
+                Ready to Start?
+                <ArrowRight className="w-5 h-5" />
+              </div>
+            </GlitchButton>
           </div>
         </div>
       </div>

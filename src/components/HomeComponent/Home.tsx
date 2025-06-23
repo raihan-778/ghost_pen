@@ -546,8 +546,8 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Hero Section */}
 
-      <Motion.Section className="relative min-h-screen mb-8 flex items-center justify-center px-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <Motion.Section className="relative max-w-7xl mt-16 min-h-screen mb-8 flex items-center justify-center px-6">
+        <div className=" mx-auto text-center">
           <Motion.Div className="mb-6">
             <div className="inline-flex items-center glass-morphism-strong rounded-full px-6 py-3 mb-12 animate-pulse-glow">
               <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full mr-4 animate-pulse"></div>
@@ -594,8 +594,11 @@ const HomeComponent: React.FC = () => {
         </div>
       </Motion.Section>
 
-      <Motion.Section id="testimonials" className="relative mb-8">
-        <div className="max-w-7xl rounded-3xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
+      <Motion.Section
+        id="testimonials"
+        className="relative px-8 lg:px-12 mb-8 max-w-7xl"
+      >
+        <div className=" rounded-3xl max-w-7xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500">
           <Motion.Div className="text-center mb-20">
             <h2 className="text-3xl md:text-7xl font-light gradient-text text-glow mb-6">
               Trusted by Leaders
@@ -655,49 +658,6 @@ const HomeComponent: React.FC = () => {
           </Motion.Div>
         </div>
       </Motion.Section>
-      {/* Enhanced Features Section */}
-      <Motion.Section
-        id="features"
-        className="relative max-w-7xl mb-8 rounded-3xl mx-auto py-8 lg:py-12 px-8 lg:px-12 shadow-2xl border border-gray-800/50 hover:shadow-purple-500/10 transition-all duration-500"
-      >
-        <div className=" mx-auto text-center py-8 lg:py-12 px-8 lg:px-12">
-          <Motion.Div className="text-center mb-20">
-            <h2 className="text-5xl md:text-7xl font-light gradient-text text-glow mb-6">
-              Built for Modern Teams
-            </h2>
-            <p className="text-2xl text-gray-300 max-w-3xl mx-auto font-light">
-              Enterprise-grade security meets
-              <span className="accent-gradient font-semibold">
-                {" "}
-                intuitive design excellence
-              </span>
-            </p>
-          </Motion.Div>
-
-          <Motion.Div className="grid md:grid-cols-3 gap-12">
-            {features.map((feature: Feature, index: number) => {
-              const Icon = feature.icon;
-              return (
-                <Motion.Div
-                  key={index}
-                  className="glass-morphism-strong rounded-3xl p-10 hover-lift group animate-pulse-glow"
-                  style={{ animationDelay: `${index * 300}ms` }}
-                >
-                  <div className="glass-morphism w-20 h-20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-125 transition-all duration-500 bg-gradient-to-br from-blue-800/30 to-indigo-700/30">
-                    <Icon className="w-10 h-10 text-blue-400 group-hover:text-indigo-300 transition-colors duration-500" />
-                  </div>
-                  <h3 className="text-2xl font-semibold gradient-text mb-6 text-glow">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed text-lg font-light">
-                    {feature.description}
-                  </p>
-                </Motion.Div>
-              );
-            })}
-          </Motion.Div>
-        </div>
-      </Motion.Section>
 
       {/* How it Work Section */}
       <Motion.Section className="relative">
@@ -719,7 +679,7 @@ const HomeComponent: React.FC = () => {
 
       {/* Enhanced Testimonials Section */}
       <Motion.Section id="testimonials " className="relative">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="">
           <TestimonialsSection />
         </div>
       </Motion.Section>
