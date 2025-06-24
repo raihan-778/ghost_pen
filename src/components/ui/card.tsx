@@ -1,90 +1,7 @@
-// import * as React from "react";
-
-// import { cn } from "@/lib/utils";
-
-// function Card({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card"
-//       className={cn(
-//         "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
-//         className
-//       )}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-header"
-//       className={cn(
-//         "@container/card-header text-green-500 grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6",
-//         className
-//       )}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-title"
-//       className={cn("leading-none font-semibold", className)}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-description"
-//       className={cn("text-muted-foreground text-sm", className)}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardAction({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-action"
-//       className={cn(
-//         "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-//         className
-//       )}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-content"
-//       className={cn("px-6", className)}
-//       {...props}
-//     />
-//   );
-// }
-
-// function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-//   return (
-//     <div
-//       data-slot="card-footer"
-//       className={cn("flex items-center px-6 [.border-t]:pt-6", className)}
-//       {...props}
-//     />
-//   );
-// }
-
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
-// Enhanced Card Components with Premium Design
+// Static Gradient Card Components
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -94,18 +11,13 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     >
-      {/* Enhanced animated border glow */}
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-600/0 via-purple-500/80 to-cyan-400/60 opacity-0 group-hover:opacity-40 blur-2xl transition-all duration-700 animate-pulse" />
-
-      {/* Aurora-like moving background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/15 via-pink-500/15 to-cyan-400/15 opacity-0 group-hover:opacity-100 transition-all duration-700">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer" />
-      </div>
+      {/* Static border glow */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-600/0 via-purple-500/80 to-cyan-400/60 opacity-0 group-hover:opacity-40 blur-2xl transition-all duration-700" />
 
       {/* Premium glass morphism overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-      {/* Dynamic grid pattern */}
+      {/* Static grid pattern */}
       <div className="absolute inset-0 opacity-10 group-hover:opacity-25 transition-opacity duration-500">
         <div
           className="absolute inset-0"
@@ -119,22 +31,12 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
         />
       </div>
 
-      {/* Subtle noise texture */}
-      <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
-
       {/* Content container with inner glow */}
       <div className="relative z-10 h-full bg-gradient-to-br from-black/20 via-transparent to-purple-900/10 group-hover:from-black/10 group-hover:to-purple-900/20 transition-all duration-700">
         {props.children}
       </div>
 
-      {/* Enhanced corner accents with glow */}
+      {/* Corner accents with glow */}
       <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-purple-300/60 rounded-tl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-purple-400/25" />
       <div className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-cyan-300/60 rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-cyan-400/25" />
       <div className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-cyan-300/60 rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-cyan-400/25" />
@@ -149,10 +51,10 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("flex flex-col space-y-3 p-8 pb-6 relative", className)}
+      className={cn("flex flex-col  space-y-3 p-8 pb-6 relative", className)}
       {...props}
     >
-      {/* Premium header accent with glow */}
+      {/* Header accent with glow */}
       <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-purple-400/70 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 shadow-sm shadow-purple-400/50" />
       {props.children}
     </div>
@@ -192,7 +94,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/40 to-pink-600/0 -translate-x-full group-hover/action:translate-x-full transition-transform duration-700" />
+      <div className="absolute rounded-xl inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/40 to-pink-600/0 -translate-x-full group-hover/action:translate-x-full transition-transform duration-700" />
       <span className="relative z-10 drop-shadow-sm">{props.children}</span>
     </div>
   );
@@ -202,7 +104,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "p-8 pt-6 text-gray-100 group-hover:text-gray-50 transition-all duration-500 relative leading-relaxed",
+        "p-8 pt-6  text-gray-100 group-hover:text-gray-50 transition-all duration-500 relative leading-relaxed",
         className
       )}
       {...props}
@@ -216,7 +118,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("flex items-center p-8 pt-6 relative", className)}
       {...props}
     >
-      {/* Premium footer accent with glow */}
+      {/* Footer accent with glow */}
       <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 shadow-sm shadow-cyan-400/50" />
       {props.children}
     </div>

@@ -127,7 +127,7 @@ function Dashboard() {
         </h1>
 
         <div className="mb-4">
-          <h2 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="bg-gradient-to-r font-bold from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Copy Your Unique Link
           </h2>{" "}
           <div className="flex text-xl text-gray-400 max-w-3xl items-center">
@@ -153,7 +153,7 @@ function Dashboard() {
             onCheckedChange={handleSwitchChange}
             disabled={isSwitchLoading}
           />
-          <span className="ml-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <span className="ml-2 bg-gradient-to-r font-bold from-purple-400 to-pink-400 bg-clip-text text-transparent">
             Accept Messages:{" "}
             {acceptMessages ? (
               <span className="text-green-500 text-xl font-bold">On</span>

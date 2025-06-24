@@ -23,18 +23,18 @@ import { messageSchema } from "@/schemas/messageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
 
 import AnimatedBackground from "@/components/AnimatedBackground";
-import { motion, useAnimation, useInView } from "framer-motion";
+import GradientButton from "@/components/ui/gradientButton";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import * as z from "zod";
-const [typedText, setTypedText] = useState("");
-const [currentTextIndex, setCurrentTextIndex] = useState(0);
+// const [typedText, setTypedText] = useState("");
+// const [currentTextIndex, setCurrentTextIndex] = useState(0);
 
-const footerRef = useRef<HTMLElement>(null);
-const isInView = useInView(footerRef, { once: true, amount: 0.1 });
-const controls = useAnimation();
+// const footerRef = useRef<HTMLElement>(null);
+// const isInView = useInView(footerRef, { once: true, amount: 0.1 });
+// const controls = useAnimation();
 
 const specialChar = "||";
 
@@ -55,17 +55,15 @@ const parseStringMessages = (messageString: string): string[] => {
 const innitialMessages = parseStringMessages(initialMessageString);
 
 //  Function For Typing Animation
-const typingTexts = useMemo(
-  () => [
-    "End-to-end encryption",
-    "Zero data retention",
-    "Complete privacy",
-    "Secure messaging",
-  ],
-  []
-);
-
-// Optimized typing animation with useCallback
+// const typingTexts = useMemo(
+//   () => [
+//     "End-to-end encryption",
+//     "Zero data retention",
+//     "Complete privacy",
+//     "Secure messaging",
+//   ],
+//   []
+// );
 
 // Function for typing Animation end
 
@@ -77,25 +75,6 @@ export default function SendMessage() {
   const [selectedMessage, setSelectedMessage] = useState("");
   const params = useParams<{ username: string }>();
   const username = params.username;
-
-  // const typeText = useCallback(() => {
-  //   const currentText = typingTexts[currentTextIndex];
-
-  //   if (typedText.length < currentText.length) {
-  //     setTimeout(() => {
-  //       setTypedText(currentText.slice(0, typedText.length + 1));
-  //     }, 100);
-  //   } else {
-  //     setTimeout(() => {
-  //       setTypedText("");
-  //       setCurrentTextIndex((prev) => (prev + 1) % typingTexts.length);
-  //     }, 2000);
-  //   }
-  // }, [typedText, currentTextIndex, typingTexts]);
-
-  // useEffect(() => {
-  //   typeText();
-  // }, [typeText]);
 
   const fetchSuggestedMessages = async () => {
     setIsSuggestionLoading(true);
@@ -183,11 +162,17 @@ export default function SendMessage() {
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Send Anonymous Message to @{username}</FormLabel>
+                  <FormLabel className=" text-xl text-blue-500">
+                    Send Anonymous Message to{" "}
+                    <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+                      {" "}
+                      @{username}
+                    </span>
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Write your anonymous message here"
-                      className="resize-none"
+                      className="resize-none text-cyan-400 text-xl"
                       {...field}
                     />
                   </FormControl>
@@ -197,14 +182,18 @@ export default function SendMessage() {
             />
             <div className="flex justify-center">
               {isLoading ? (
-                <Button disabled>
+                <GradientButton disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Please wait
-                </Button>
+                </GradientButton>
               ) : (
-                <Button type="submit" disabled={isLoading || !messageContent}>
+                <GradientButton
+                  type="submit"
+                  variant="secondary"
+                  disabled={isLoading || !messageContent}
+                >
                   Send It
-                </Button>
+                </GradientButton>
               )}
             </div>
           </form>
@@ -223,29 +212,19 @@ export default function SendMessage() {
               </span>
               <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             </button>
-            <p className="text-gray-400 mb-4 max-w-md leading-relaxed">
-              The world&apos;s most secure messaging platform with{" "}
-              <span className="text-purple-400 font-medium">
-                {typedText}
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity }}
-                  className="ml-1"
-                >
-                  |
-                </motion.span>
-              </span>
+
+            <p className="text-md font-medium text-blue-500 ">
+              Click on any message below to select it.
             </p>
-            <p>Click on any message below to select it.</p>
           </div>
           <Card className="bg-slate-800 rounded-2xl p-6 mb-6 min-h-[400px]  overflow-hidden">
             <CardHeader>
-              <h3 className="text-xl accent-gradient font-bold animate-shimmer ">
+              <h3 className="text-xl accent-gradient  font-bold animate-shimmer ">
                 Messages
               </h3>
             </CardHeader>
             {suggestions.length ? (
-              <CardContent className="flex flex-col space-y-4">
+              <CardContent className="flex flex-col  space-y-6">
                 {error ? (
                   <p className="text-red-500">{error.toLowerCase()}</p>
                 ) : (
@@ -253,7 +232,7 @@ export default function SendMessage() {
                     <Button
                       key={index}
                       variant="outline"
-                      className={` bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/20 mb-4 group-hover:bg-blue-500/20 transition-all duration-300 mr-8 cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gradient-to-b from-black via-gray-900 to-black hover:text-blue-500 "}`}
+                      className={` bg-gradient-to-br from-blue-500/10 space-y-2 to-purple-500/10 rounded-2xl border border-blue-500/20 mb-4 group-hover:bg-blue-500/20 transition-all duration-300 mr-8 cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gradient-to-b from-black via-gray-900 to-black hover:text-blue-500 "}`}
                       onClick={() => handleMessageClick(message)}
                     >
                       {message}
@@ -262,7 +241,7 @@ export default function SendMessage() {
                 )}
               </CardContent>
             ) : (
-              <CardContent className="flex flex-col space-y-4">
+              <CardContent className="flex flex-col space-y-6">
                 {error ? (
                   <p className="text-red-500">{error.toLowerCase()}</p>
                 ) : (
@@ -270,10 +249,10 @@ export default function SendMessage() {
                     <Button
                       key={index}
                       variant="outline"
-                      className={` bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-blue-500/20 mb-4 group-hover:bg-blue-500/20 transition-all duration-300 mr-8 cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gradient-to-b from-black via-gray-900 to-black hover:text-blue-500 "}`}
+                      className={` bg-gradient-to-br from-blue-500/10  to-purple-500/10 rounded-2xl border border-blue-500/20 mb-4 group-hover:bg-blue-500/20 transition-all duration-300 mr-8 cursor-pointer ${selectedMessage === message ? "bg-blue-50 border-blue-300" : "hover:bg-gradient-to-b from-black via-gray-900 to-black hover:text-blue-500 "}`}
                       onClick={() => handleMessageClick(message)}
                     >
-                      <p className=" text-md">{message}</p>
+                      <p className="text-md">{message}</p>
                     </Button>
                   ))
                 )}
