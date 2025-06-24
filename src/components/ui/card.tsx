@@ -84,43 +84,64 @@
 import { cn } from "@/lib/utils";
 import * as React from "react";
 
+// Enhanced Card Components with Premium Design
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "relative group bg-gradient-to-br from-slate-900/90 via-purple-900/20 to-slate-900/90 backdrop-blur-xl border border-purple-500/30 rounded-3xl shadow-2xl overflow-hidden transition-all duration-700 hover:scale-[1.02] hover:shadow-purple-500/40 hover:shadow-2xl hover:border-purple-400/60",
+        "relative group bg-gradient-to-br from-slate-900/95 via-purple-900/25 to-slate-800/90 backdrop-blur-2xl border border-purple-500/40 rounded-3xl shadow-2xl overflow-hidden transition-all duration-700 hover:scale-[1.03] hover:shadow-purple-500/30 hover:shadow-3xl hover:border-purple-400/70 hover:-translate-y-2",
         className
       )}
       {...props}
     >
-      {/* Animated border glow */}
-      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-600/0 via-purple-600/100 to-cyan-500/0 opacity-0 group-hover:opacity-30 blur-xl transition-all duration-700 animate-pulse" />
+      {/* Enhanced animated border glow */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-purple-600/0 via-purple-500/80 to-cyan-400/60 opacity-0 group-hover:opacity-40 blur-2xl transition-all duration-700 animate-pulse" />
 
-      {/* Moving gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-pink-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-all duration-700 animate-gradient-xy" />
+      {/* Aurora-like moving background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/15 via-pink-500/15 to-cyan-400/15 opacity-0 group-hover:opacity-100 transition-all duration-700">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer" />
+      </div>
 
-      {/* Shimmer effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+      {/* Premium glass morphism overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
+      {/* Dynamic grid pattern */}
+      <div className="absolute inset-0 opacity-10 group-hover:opacity-25 transition-opacity duration-500">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(147, 51, 234, 0.3) 1px, transparent 0)`,
-            backgroundSize: "20px 20px",
+            backgroundImage: `
+              radial-gradient(circle at 2px 2px, rgba(139, 92, 246, 0.4) 1px, transparent 0),
+              radial-gradient(circle at 18px 18px, rgba(236, 72, 153, 0.3) 1px, transparent 0)
+            `,
+            backgroundSize: "20px 20px, 40px 40px",
           }}
         />
       </div>
 
-      {/* Content container */}
-      <div className="relative z-10 h-full">{props.children}</div>
+      {/* Subtle noise texture */}
+      <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.04] transition-opacity duration-500">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          }}
+        />
+      </div>
 
-      {/* Corner accents */}
-      <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-purple-400/50 rounded-tl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-      <div className="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-cyan-400/50 rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-      <div className="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-cyan-400/50 rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
-      <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-purple-400/50 rounded-br-3xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+      {/* Content container with inner glow */}
+      <div className="relative z-10 h-full bg-gradient-to-br from-black/20 via-transparent to-purple-900/10 group-hover:from-black/10 group-hover:to-purple-900/20 transition-all duration-700">
+        {props.children}
+      </div>
+
+      {/* Enhanced corner accents with glow */}
+      <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 border-purple-300/60 rounded-tl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-purple-400/25" />
+      <div className="absolute top-0 right-0 w-12 h-12 border-r-2 border-t-2 border-cyan-300/60 rounded-tr-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-cyan-400/25" />
+      <div className="absolute bottom-0 left-0 w-12 h-12 border-l-2 border-b-2 border-cyan-300/60 rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-cyan-400/25" />
+      <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 border-purple-300/60 rounded-br-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-purple-400/25" />
+
+      {/* Top highlight line */}
+      <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-70" />
     </div>
   );
 }
@@ -128,11 +149,11 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("flex flex-col space-y-2 p-8 pb-6 relative", className)}
+      className={cn("flex flex-col space-y-3 p-8 pb-6 relative", className)}
       {...props}
     >
-      {/* Header accent line */}
-      <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Premium header accent with glow */}
+      <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-purple-400/70 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 shadow-sm shadow-purple-400/50" />
       {props.children}
     </div>
   );
@@ -142,7 +163,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "text-2xl font-bold leading-tight tracking-tight text-gray-100 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:via-pink-300 group-hover:to-cyan-300 group-hover:bg-clip-text transition-all duration-500 drop-shadow-sm",
+        "text-2xl font-bold leading-tight tracking-tight text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-200 group-hover:via-pink-200 group-hover:to-cyan-200 group-hover:bg-clip-text transition-all duration-500 drop-shadow-lg filter",
         className
       )}
       {...props}
@@ -154,7 +175,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "text-sm text-gray-300 group-hover:text-gray-100 transition-all duration-500 leading-relaxed font-normal",
+        "text-base text-gray-200 group-hover:text-gray-50 transition-all duration-500 leading-relaxed font-normal drop-shadow-sm",
         className
       )}
       {...props}
@@ -166,13 +187,13 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-all duration-300 cursor-pointer group/action relative overflow-hidden px-3 py-1.5 rounded-lg hover:bg-purple-500/20 hover:shadow-lg hover:shadow-purple-500/25",
+        "inline-flex items-center gap-2 text-sm font-bold text-purple-300 hover:text-white transition-all duration-300 cursor-pointer group/action relative overflow-hidden px-4 py-2 rounded-xl hover:bg-gradient-to-r hover:from-purple-500/20 hover:to-pink-500/20 hover:shadow-lg hover:shadow-purple-500/30 border border-purple-400/30 hover:border-purple-300/60 backdrop-blur-sm",
         className
       )}
       {...props}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/50 to-purple-600/0 -translate-x-full group-hover/action:translate-x-full transition-transform duration-500" />
-      <span className="relative z-10">{props.children}</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-600/0 via-purple-600/40 to-pink-600/0 -translate-x-full group-hover/action:translate-x-full transition-transform duration-700" />
+      <span className="relative z-10 drop-shadow-sm">{props.children}</span>
     </div>
   );
 }
@@ -181,7 +202,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "p-8 pt-6 text-gray-200 group-hover:text-gray-50 transition-all duration-500 relative",
+        "p-8 pt-6 text-gray-100 group-hover:text-gray-50 transition-all duration-500 relative leading-relaxed",
         className
       )}
       {...props}
@@ -195,29 +216,13 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
       className={cn("flex items-center p-8 pt-6 relative", className)}
       {...props}
     >
-      {/* Footer accent line */}
-      <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Premium footer accent with glow */}
+      <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500 shadow-sm shadow-cyan-400/50" />
       {props.children}
     </div>
   );
 }
 
-// Delete Button Component
-// function CardDeleteButton({ className, ...props }: React.ComponentProps<"button">) {
-//   return (
-//     <button
-//       className={cn(
-//         "group/delete relative overflow-hidden p-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 hover:border-red-400/60 text-red-400 hover:text-red-300 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/25 focus:outline-none focus:ring-2 focus:ring-red-400/50",
-//         className
-//       )}>
-//       {...props}
-//     </button>
-//       {/* Subtle glow effect */}
-//       <div className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/20 to-red-500/0 opacity-0 group-hover/delete:opacity-100 transition-opacity duration-300 rounded-xl" />
-
-{
-  /* Icon container */
-}
 export {
   Card,
   CardAction,

@@ -1,6 +1,7 @@
 import { LucideIcon, MessageCircle, Shield, Zap } from "lucide-react";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import { GlitchButton } from "../GlitchButton";
+import CardDemo from "../ui/DemoCard";
 import CTASection from "./CallToAction";
 import FAQSection from "./FAQ";
 import FeaturesShowcase from "./FeaturesShowcase";
@@ -707,6 +708,7 @@ const HomeComponent: React.FC = () => {
       <Motion.Section className="relative border-t border-violet-900/30">
         <FooterSection />
       </Motion.Section>
+      <CardDemo />
     </>
   );
 };

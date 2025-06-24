@@ -1,3 +1,4 @@
+import AnimatedBackground from "@/components/AnimatedBackground";
 import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -29,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
-        {children}
+        <AnimatedBackground>{children}</AnimatedBackground>
       </body>
     </html>
   );
