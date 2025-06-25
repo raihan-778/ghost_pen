@@ -12,17 +12,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Message } from "@/model/User";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios from "axios";
-import { X } from "lucide-react";
+import { Delete } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "./ui/button";
 
 type MessageCardProps = {
   message: Message;
@@ -41,14 +42,25 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   };
 
   return (
-    <Card>
+    <Card className="hover:shadow-cyan-500/40">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+        <CardTitle>The Gallery of Unseen Words</CardTitle>
+        <CardDescription>{message.createdAt.toLocaleString()}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div className="text-lg text-gray-100 italic">{message.content}</div>
+        </div>
+      </CardContent>
+      <CardFooter>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
-              <X className="h-5 w-5" />
-            </Button>
+            <CardAction>
+              <button className="justify-between text-rose-400 text-sm cursor-pointer transition-all duration-200  ease-in-out inline-flex items-center gap-1 ">
+                <span className="text-cyan-400"> Delete Message!</span>
+                <Delete />
+              </button>
+            </CardAction>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -66,14 +78,35 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-
-        <CardDescription>{message.createdAt.toLocaleString()}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>{message.content}</p>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }
 
 export default MessageCard;
+
+{
+  /* <Card className="hover:shadow-cyan-500/40">
+  <CardHeader>
+    <CardTitle>Executive Transformation</CardTitle>
+    <CardDescription>
+      "This platform enabled our leadership team to receive genuine insights."
+    </CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div className="space-y-4">
+      <div className="text-lg text-gray-100 italic">
+        "The anonymity feature completely transformed our company culture and
+        decision-making process."
+      </div>
+      <div className="border-t border-purple-500/30 pt-4">
+        <div className="text-purple-300 font-semibold">Fortune 500 CEO</div>
+        <div className="text-gray-400 text-sm">Technology Sector</div>
+      </div>
+    </div>
+  </CardContent>
+  <CardFooter>
+    <CardAction>Read Full Story →</CardAction>
+  </CardFooter>
+</Card>; */
+}

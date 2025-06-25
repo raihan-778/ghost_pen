@@ -57,7 +57,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       type="submit"
       className={`group px-8 py-4 ${currentVariant.gradient} ${currentVariant.hoverGradient} text-white rounded-2xl font-semibold text-lg hover:shadow-2xl ${currentVariant.shadow} hover:shadow-2xl hover:shadow-blue-500/50       transform hover:scale-105 transition-all duration-300 relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none backdrop-blur-sm border ${currentVariant.border} ${className}`}
     >
-      <span className="relative z-10 flex items-center">
+      <span className="relative z-10 flex justify-center w-full items-center">
         {children}
         {icon}
       </span>
