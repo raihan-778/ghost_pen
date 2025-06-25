@@ -1,15 +1,5 @@
 "use client";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+
 import {
   Card,
   CardAction,
@@ -23,7 +13,18 @@ import { Message } from "@/model/User";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios from "axios";
 import { Delete } from "lucide-react";
-import { toast } from "sonner";
+import { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./CustomAlertDialogComponent/customeAlertDialog";
 
 type MessageCardProps = {
   message: Message;
@@ -31,14 +32,43 @@ type MessageCardProps = {
 };
 
 function MessageCard({ message, onMessageDelete }: MessageCardProps) {
-  const handleDeleteConfirm = async () => {
-    const response = await axios.delete<ApiResponse>(
-      `/api/delete-message/${message._id}`
-    );
-    toast.success("Message-delete-Conformation", {
-      description: response.data.message,
-    });
-    onMessageDelete(message._id as string);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+  // const handleDeleteConfirm = async () => {
+  //   const response = await axios.delete<ApiResponse>(
+  //     `/api/delete-message/${message._id}`
+  //   );
+  //   toast.success("Message-delete-Conformation", {
+  //     description: response.data.message,
+  //   });
+  //   onMessageDelete(message._id as string);
+  // };
+
+  const handleDeleteConfirm = async (): Promise<void> => {
+    setIsDeleting(true);
+    try {
+      // Replace with your actual API call
+      const response = await axios.delete<ApiResponse>(
+        `/api/delete-message/${message._id}`
+      );
+
+      if (!response) {
+        throw new Error("Failed to delete message");
+      }
+
+      // Replace with your actual toast implementation
+      console.log("Message Delete Confirmation", response.data.message);
+
+      onMessageDelete(message._id as string);
+      setIsOpen(false);
+    } catch (error) {
+      console.error(
+        "Delete Failed: Failed to delete message. Please try again.",
+        error
+      );
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -53,8 +83,8 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+          <AlertDialogTrigger>
             <CardAction>
               <button className="justify-between text-rose-400 text-sm cursor-pointer transition-all duration-200  ease-in-out inline-flex items-center gap-1 ">
                 <span className="text-cyan-400"> Delete Message!</span>

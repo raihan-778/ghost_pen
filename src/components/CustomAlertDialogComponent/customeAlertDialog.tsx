@@ -1,82 +1,308 @@
-import React, { useState } from "react";
-import { AlertTriangle, Trash2, X, Shield } from "lucide-react";
+"use client";
 
-// Enhanced AlertDialog Components with GhostPen Theme
-const AlertDialog = ({ children, open, onOpenChange }) => {
-  return (
-    <>
-      {children}
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-300"
-            onClick={() => onOpenChange?.(false)}
-          />
-          <div className="relative z-50">
-            {React.Children.map(children, (child) =>
-              child.type?.displayName === "AlertDialogContent" ? child : null
-            )}
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
+import { AlertTriangle, Shield, Trash2, X } from "lucide-react";
+import * as React from "react";
 
-const AlertDialogTrigger = ({ children, asChild, ...props }) => {
-  return React.cloneElement(children, {
-    ...props,
-    ...children.props,
-  });
-};
-AlertDialogTrigger.displayName = "AlertDialogTrigger";
+import { cn } from "@/lib/utils";
 
-const AlertDialogContent = ({ children, className = "", ...props }) => {
-  return (
+// Base primitive components that handle the actual dialog logic
+const AlertDialogPrimitive = {
+  Root: ({
+    children,
+    open,
+    onOpenChange,
+  }: {
+    children: React.ReactNode;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+  }) => {
+    return (
+      <AlertDialogContext.Provider
+        value={{ open: open || false, onOpenChange }}
+      >
+        {children}
+      </AlertDialogContext.Provider>
+    );
+  },
+  Trigger: ({
+    children,
+    ...props
+  }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    children: React.ReactNode;
+  }) => {
+    const context = React.useContext(AlertDialogContext);
+    return (
+      <button
+        {...props}
+        onClick={(e) => {
+          props.onClick?.(e);
+          context.onOpenChange?.(true);
+        }}
+      >
+        {children}
+      </button>
+    );
+  },
+  Portal: ({ children }: { children: React.ReactNode }) => {
+    const context = React.useContext(AlertDialogContext);
+    if (!context.open) return null;
+    return <>{children}</>;
+  },
+  Overlay: React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(({ className, ...props }, ref) => {
+    const context = React.useContext(AlertDialogContext);
+    return (
+      <div
+        ref={ref}
+        className={className}
+        onClick={() => context.onOpenChange?.(false)}
+        {...props}
+      />
+    );
+  }),
+  Content: React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLDivElement>
+  >(({ className, ...props }, ref) => (
     <div
-      className={`relative bg-gradient-to-br from-slate-900/95 via-purple-950/95 to-indigo-950/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-300 border border-purple-800/30 ${className}`}
+      ref={ref}
+      className={className}
+      onClick={(e) => e.stopPropagation()}
+      {...props}
+    />
+  )),
+  Title: React.forwardRef<
+    HTMLHeadingElement,
+    React.HTMLAttributes<HTMLHeadingElement>
+  >(({ className, ...props }, ref) => (
+    <h2 ref={ref} className={className} {...props} />
+  )),
+  Description: React.forwardRef<
+    HTMLParagraphElement,
+    React.HTMLAttributes<HTMLParagraphElement>
+  >(({ className, ...props }, ref) => (
+    <div ref={ref} className={className} {...props} />
+  )),
+  Action: React.forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+  >(({ className, ...props }, ref) => (
+    <button ref={ref} className={className} {...props} />
+  )),
+  Cancel: React.forwardRef<
+    HTMLButtonElement,
+    React.ButtonHTMLAttributes<HTMLButtonElement>
+  >(({ className, ...props }, ref) => {
+    const context = React.useContext(AlertDialogContext);
+    return (
+      <button
+        ref={ref}
+        className={className}
+        onClick={(e) => {
+          props.onClick?.(e);
+          context.onOpenChange?.(false);
+        }}
+        {...props}
+      />
+    );
+  }),
+};
+
+// Context for managing dialog state
+const AlertDialogContext = React.createContext<{
+  open: boolean;
+  onOpenChange?: (open: boolean) => void;
+}>({ open: false });
+
+// Button variants helper
+const buttonVariants = (props?: {
+  variant?: "destructive" | "outline" | "default";
+}) => {
+  const variant = props?.variant || "default";
+  const variants = {
+    default:
+      "bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 hover:from-purple-600 hover:via-purple-700 hover:to-pink-700 text-white",
+    destructive:
+      "bg-gradient-to-r from-red-500 via-red-600 to-pink-600 hover:from-red-600 hover:via-red-700 hover:to-pink-700 text-white",
+    outline:
+      "bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-gray-200 border border-slate-600/50",
+  };
+  return `px-4 py-3 font-semibold rounded-2xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${variants[variant]}`;
+};
+
+function AlertDialog({
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Root>) {
+  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
+}
+
+function AlertDialogTrigger({
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
+  return (
+    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
+  );
+}
+
+function AlertDialogPortal({
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Portal>) {
+  return (
+    <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
+  );
+}
+
+function AlertDialogOverlay({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Overlay>) {
+  const stars = [
+    {
+      top: "25%",
+      left: "25%",
+      size: "w-1 h-1",
+      color: "bg-white",
+      delay: "0s",
+    },
+    {
+      top: "33%",
+      right: "33%",
+      size: "w-0.5 h-0.5",
+      color: "bg-purple-300",
+      delay: "1s",
+    },
+    {
+      bottom: "25%",
+      left: "33%",
+      size: "w-1 h-1",
+      color: "bg-pink-300",
+      delay: "2s",
+    },
+    {
+      top: "66%",
+      right: "25%",
+      size: "w-0.5 h-0.5",
+      color: "bg-blue-300",
+      delay: "0.5s",
+    },
+  ];
+
+  return (
+    <AlertDialogPrimitive.Overlay
+      data-slot="alert-dialog-overlay"
+      className={cn(
+        "fixed inset-0 z-50 bg-gradient-to-br from-indigo-950/80 via-purple-950/80 to-violet-950/80 backdrop-blur-sm animate-in fade-in-0 duration-300",
+        className
+      )}
       {...props}
     >
-      {/* Animated gradient border */}
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-3xl opacity-20 animate-pulse" />
-
-      <div className="relative bg-gradient-to-br from-slate-900 via-purple-950 to-indigo-950 rounded-3xl">
-        {children}
+      {/* Animated background stars */}
+      <div className="absolute inset-0 opacity-30">
+        {stars.map((star, index) => (
+          <div
+            key={index}
+            className={`absolute ${star.size} ${star.color} rounded-full animate-pulse`}
+            style={{
+              top: star.top,
+              bottom: star.bottom,
+              left: star.left,
+              right: star.right,
+              animationDelay: star.delay,
+            }}
+          />
+        ))}
       </div>
-    </div>
+    </AlertDialogPrimitive.Overlay>
   );
-};
-AlertDialogContent.displayName = "AlertDialogContent";
+}
 
-const AlertDialogHeader = ({ children, className = "", ...props }) => {
+function AlertDialogContent({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Content>) {
+  return (
+    <AlertDialogPortal>
+      <AlertDialogOverlay />
+      <AlertDialogPrimitive.Content
+        data-slot="alert-dialog-content"
+        className={cn(
+          "fixed top-[50%] left-[25%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] animate-in zoom-in-95 duration-300 mx-4",
+          "relative bg-gradient-to-br from-slate-900/95 via-purple-950/95 to-indigo-950/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-purple-800/30",
+          className
+        )}
+        {...props}
+      >
+        {/* Animated gradient border */}
+        <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-3xl opacity-20 animate-pulse" />
+
+        <div className="relative bg-gradient-to-br from-slate-900 via-purple-950 to-indigo-950 rounded-3xl">
+          {props.children}
+        </div>
+      </AlertDialogPrimitive.Content>
+    </AlertDialogPortal>
+  );
+}
+
+function AlertDialogHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
-      className={`relative overflow-hidden rounded-t-3xl ${className}`}
+      data-slot="alert-dialog-header"
+      className={cn("relative overflow-hidden rounded-t-3xl", className)}
       {...props}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-purple-500/10 to-pink-500/10" />
-      <div className="relative p-6 pb-4">{children}</div>
+      <div className="relative p-6 pb-4">{props.children}</div>
     </div>
   );
-};
-AlertDialogHeader.displayName = "AlertDialogHeader";
+}
 
-const AlertDialogTitle = ({ children, className = "", ...props }) => {
-  return (
-    <h2
-      className={`text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent text-center mb-2 ${className}`}
-      {...props}
-    >
-      {children}
-    </h2>
-  );
-};
-AlertDialogTitle.displayName = "AlertDialogTitle";
-
-const AlertDialogDescription = ({ children, className = "", ...props }) => {
+function AlertDialogFooter({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
-      className={`bg-gradient-to-r from-red-950/50 via-purple-950/50 to-pink-950/50 border border-red-500/30 rounded-2xl p-4 mb-6 backdrop-blur-sm ${className}`}
+      data-slot="alert-dialog-footer"
+      className={cn("px-6 pb-6", className)}
+      {...props}
+    >
+      <div className="flex gap-3">{props.children}</div>
+    </div>
+  );
+}
+
+function AlertDialogTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Title>) {
+  return (
+    <AlertDialogPrimitive.Title
+      data-slot="alert-dialog-title"
+      className={cn(
+        "text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent text-center mb-2",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function AlertDialogDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
+  return (
+    <AlertDialogPrimitive.Description
+      data-slot="alert-dialog-description"
+      className={cn(
+        "bg-gradient-to-r from-red-950/50 via-purple-950/50 to-pink-950/50 border border-red-500/30 rounded-2xl p-4 mb-6 backdrop-blur-sm",
+        className
+      )}
       {...props}
     >
       <div className="flex items-start gap-3">
@@ -84,73 +310,58 @@ const AlertDialogDescription = ({ children, className = "", ...props }) => {
           <Shield className="w-5 h-5 text-red-400 flex-shrink-0" />
         </div>
         <div className="text-sm text-purple-200 leading-relaxed">
-          {children}
+          {props.children}
         </div>
       </div>
-    </div>
+    </AlertDialogPrimitive.Description>
   );
-};
-AlertDialogDescription.displayName = "AlertDialogDescription";
+}
 
-const AlertDialogFooter = ({ children, className = "", ...props }) => {
-  return (
-    <div className={`px-6 pb-6 ${className}`} {...props}>
-      <div className="flex gap-3">{children}</div>
-    </div>
-  );
-};
-AlertDialogFooter.displayName = "AlertDialogFooter";
-
-const AlertDialogCancel = ({ children, className = "", onClick, ...props }) => {
-  return (
-    <button
-      className={`flex-1 px-4 py-3 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-gray-200 font-semibold rounded-2xl transition-all duration-300 hover:scale-105 border border-slate-600/50 ${className}`}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-};
-AlertDialogCancel.displayName = "AlertDialogCancel";
-
-const AlertDialogAction = ({
-  children,
-  className = "",
+function AlertDialogAction({
+  className,
   variant = "destructive",
-  loading = false,
-  onClick,
   ...props
-}) => {
-  const variants = {
-    destructive:
-      "bg-gradient-to-r from-red-500 via-red-600 to-pink-600 hover:from-red-600 hover:via-red-700 hover:to-pink-700 border border-red-400/20 hover:shadow-red-500/25",
-    default:
-      "bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 hover:from-purple-600 hover:via-purple-700 hover:to-pink-700 border border-purple-400/20 hover:shadow-purple-500/25",
-  };
-
+}: React.ComponentProps<typeof AlertDialogPrimitive.Action> & {
+  variant?: "destructive" | "default";
+}) {
   return (
-    <button
-      className={`flex-1 px-4 py-3 ${variants[variant]} text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 ${className}`}
-      onClick={onClick}
-      disabled={loading}
-      {...props}
-    >
-      {loading ? (
-        <>
-          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-          Loading...
-        </>
-      ) : (
-        children
+    <AlertDialogPrimitive.Action
+      className={cn(
+        buttonVariants({ variant }),
+        "flex-1 flex items-center justify-center gap-2 shadow-lg",
+        className
       )}
-    </button>
+      {...props}
+    />
   );
-};
-AlertDialogAction.displayName = "AlertDialogAction";
+}
+
+function AlertDialogCancel({
+  className,
+  ...props
+}: React.ComponentProps<typeof AlertDialogPrimitive.Cancel>) {
+  return (
+    <AlertDialogPrimitive.Cancel
+      className={cn(
+        buttonVariants({ variant: "outline" }),
+        "flex-1",
+        className
+      )}
+      {...props}
+    />
+  );
+}
 
 // Enhanced Icon Component
-const AlertIcon = ({ variant = "warning", className = "", ...props }) => {
+interface AlertIconProps extends React.HTMLAttributes<HTMLDivElement> {
+  variant?: "warning" | "danger";
+}
+
+const AlertIcon: React.FC<AlertIconProps> = ({
+  variant = "warning",
+  className = "",
+  ...props
+}) => {
   const variants = {
     warning: {
       icon: AlertTriangle,
@@ -168,7 +379,10 @@ const AlertIcon = ({ variant = "warning", className = "", ...props }) => {
 
   return (
     <div
-      className={`flex items-center justify-center w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${gradient} rounded-full shadow-lg relative ${className}`}
+      className={cn(
+        `flex items-center justify-center w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${gradient} rounded-full shadow-lg relative`,
+        className
+      )}
       {...props}
     >
       <div
@@ -180,11 +394,29 @@ const AlertIcon = ({ variant = "warning", className = "", ...props }) => {
 };
 
 // Close Button Component
-const AlertDialogClose = ({ onClose, className = "", ...props }) => {
+interface AlertDialogCloseProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  onClose?: () => void;
+}
+
+const AlertDialogClose: React.FC<AlertDialogCloseProps> = ({
+  onClose,
+  className = "",
+  ...props
+}) => {
+  const context = React.useContext(AlertDialogContext);
+
   return (
     <button
-      onClick={onClose}
-      className={`absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-all duration-200 text-gray-400 hover:text-white ${className}`}
+      onClick={(e) => {
+        props.onClick?.(e);
+        onClose?.();
+        context.onOpenChange?.(false);
+      }}
+      className={cn(
+        "absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-all duration-200 text-gray-400 hover:text-white z-10",
+        className
+      )}
       {...props}
     >
       <X className="w-4 h-4" />
@@ -192,417 +424,90 @@ const AlertDialogClose = ({ onClose, className = "", ...props }) => {
   );
 };
 
-// Background Component
-const AlertDialogBackground = ({ children, className = "" }) => {
-  return (
-    <div
-      className={`min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-violet-950 flex items-center justify-center p-4 relative overflow-hidden ${className}`}
-    >
-      {/* Animated background stars */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse" />
-        <div
-          className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-purple-300 rounded-full animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-        <div
-          className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-pink-300 rounded-full animate-pulse"
-          style={{ animationDelay: "2s" }}
-        />
-        <div
-          className="absolute top-2/3 right-1/4 w-0.5 h-0.5 bg-blue-300 rounded-full animate-pulse"
-          style={{ animationDelay: "0.5s" }}
-        />
-      </div>
-      {children}
-    </div>
-  );
-};
+// Example usage component
+interface MessageDeleteDialogProps {
+  message: {
+    _id: string;
+    content?: string;
+  };
+  onMessageDelete: (messageId: string) => void;
+}
 
-// Demo Implementation
-const AlertDialogDemo = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+const MessageDeleteDialog: React.FC<MessageDeleteDialogProps> = ({
+  message,
+  onMessageDelete,
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
 
-  const handleDeleteConfirm = async () => {
+  const handleDelete = async () => {
     setIsDeleting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsDeleting(false);
-    setIsOpen(false);
-    alert("Account deleted successfully!");
+    try {
+      await onMessageDelete(message._id);
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Failed to delete message:", error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
-    <AlertDialogBackground>
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogTrigger asChild>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="group relative px-8 py-4 bg-gradient-to-r from-red-500 via-red-600 to-pink-600 hover:from-red-600 hover:via-red-700 hover:to-pink-700 text-white rounded-2xl font-semibold shadow-2xl hover:shadow-red-500/25 transform hover:scale-105 transition-all duration-300 flex items-center gap-3 border border-red-400/20"
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger>
+        <button className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors">
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogClose />
+        <AlertDialogHeader>
+          <AlertIcon variant="danger" />
+          <AlertDialogTitle>Delete Message</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete this message? This action cannot be
+            undone and will permanently remove the message from the
+            conversation.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            disabled={isDeleting}
+            onClick={handleDelete}
           >
-            <Trash2 className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-            Delete Account
-            <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </button>
-        </AlertDialogTrigger>
-
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogClose onClose={() => setIsOpen(false)} />
-            <AlertIcon variant="warning" />
-            <AlertDialogTitle>Delete Account</AlertDialogTitle>
-            <p className="text-sm text-purple-300 text-center font-medium">
-              This action is irreversible
-            </p>
-          </AlertDialogHeader>
-
-          <div className="px-6">
-            <AlertDialogDescription>
-              <div>
-                <p className="text-sm font-semibold text-red-200 mb-2">
-                  Are you absolutely sure?
-                </p>
-                <p>
-                  This will permanently delete your account and remove all your
-                  data from our servers. This action cannot be undone.
-                </p>
-              </div>
-            </AlertDialogDescription>
-          </div>
-
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsOpen(false)}>
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              variant="destructive"
-              loading={isDeleting}
-              onClick={handleDeleteConfirm}
-            >
-              {!isDeleting && <Trash2 className="w-4 h-4" />}
-              {isDeleting ? "Deleting..." : "Delete Forever"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-
-          <p className="text-xs text-purple-400 text-center pb-6 italic">
-            All data will be permanently removed within 24 hours
-          </p>
-        </AlertDialogContent>
-      </AlertDialog>
-    </AlertDialogBackground>
+            {isDeleting ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
-export default AlertDialogDemo;
-
-// Export individual components for reuse
 export {
   AlertDialog,
-  AlertDialogTrigger,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogClose,
   AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-  AlertDialogClose,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
   AlertIcon,
-  AlertDialogBackground,
+  MessageDeleteDialog,
 };
 
-// ***
-// // import React, { useState } from 'react';
-// import { AlertTriangle, Trash2, X, Shield } from 'lucide-react';
-
-// // Enhanced AlertDialog Components with GhostPen Theme
-// const AlertDialog = ({ children, open, onOpenChange }) => {
-//   return (
-//     <>
-//       {children}
-//       {open && (
-//         <div className="fixed inset-0 z-50 flex items-center justify-center">
-//           <div
-//             className="absolute inset-0 bg-black/70 backdrop-blur-md animate-in fade-in duration-300"
-//             onClick={() => onOpenChange?.(false)}
-//           />
-//           <div className="relative z-50">
-//             {React.Children.map(children, child =>
-//               child.type?.displayName === 'AlertDialogContent' ? child : null
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// const AlertDialogTrigger = ({ children, asChild, ...props }) => {
-//   return React.cloneElement(children, {
-//     ...props,
-//     ...children.props
-//   });
-// };
-// AlertDialogTrigger.displayName = 'AlertDialogTrigger';
-
-// const AlertDialogContent = ({ children, className = '', ...props }) => {
-//   return (
-//     <div
-//       className={`relative bg-gradient-to-br from-slate-900/95 via-purple-950/95 to-indigo-950/95 backdrop-blur-xl rounded-3xl shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-300 border border-purple-800/30 ${className}`}
-//       {...props}
-//     >
-//       {/* Animated gradient border */}
-//       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-3xl opacity-20 animate-pulse" />
-
-//       <div className="relative bg-gradient-to-br from-slate-900 via-purple-950 to-indigo-950 rounded-3xl">
-//         {children}
-//       </div>
-//     </div>
-//   );
-// };
-// AlertDialogContent.displayName = 'AlertDialogContent';
-
-// const AlertDialogHeader = ({ children, className = '', ...props }) => {
-//   return (
-//     <div className={`relative overflow-hidden rounded-t-3xl ${className}`} {...props}>
-//       <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-purple-500/10 to-pink-500/10" />
-//       <div className="relative p-6 pb-4">
-//         {children}
-//       </div>
-//     </div>
-//   );
-// };
-// AlertDialogHeader.displayName = 'AlertDialogHeader';
-
-// const AlertDialogTitle = ({ children, className = '', ...props }) => {
-//   return (
-//     <h2
-//       className={`text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent text-center mb-2 ${className}`}
-//       {...props}
-//     >
-//       {children}
-//     </h2>
-//   );
-// };
-// AlertDialogTitle.displayName = 'AlertDialogTitle';
-
-// const AlertDialogDescription = ({ children, className = '', ...props }) => {
-//   return (
-//     <div className={`bg-gradient-to-r from-red-950/50 via-purple-950/50 to-pink-950/50 border border-red-500/30 rounded-2xl p-4 mb-6 backdrop-blur-sm ${className}`} {...props}>
-//       <div className="flex items-start gap-3">
-//         <div className="p-2 bg-red-500/20 rounded-full">
-//           <Shield className="w-5 h-5 text-red-400 flex-shrink-0" />
-//         </div>
-//         <div className="text-sm text-purple-200 leading-relaxed">
-//           {children}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-// AlertDialogDescription.displayName = 'AlertDialogDescription';
-
-// const AlertDialogFooter = ({ children, className = '', ...props }) => {
-//   return (
-//     <div className={`px-6 pb-6 ${className}`} {...props}>
-//       <div className="flex gap-3">
-//         {children}
-//       </div>
-//     </div>
-//   );
-// };
-// AlertDialogFooter.displayName = 'AlertDialogFooter';
-
-// const AlertDialogCancel = ({ children, className = '', onClick, ...props }) => {
-//   return (
-//     <button
-//       className={`flex-1 px-4 py-3 bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-gray-200 font-semibold rounded-2xl transition-all duration-300 hover:scale-105 border border-slate-600/50 ${className}`}
-//       onClick={onClick}
-//       {...props}
-//     >
-//       {children}
-//     </button>
-//   );
-// };
-// AlertDialogCancel.displayName = 'AlertDialogCancel';
-
-// const AlertDialogAction = ({ children, className = '', variant = 'destructive', loading = false, onClick, ...props }) => {
-//   const variants = {
-//     destructive: 'bg-gradient-to-r from-red-500 via-red-600 to-pink-600 hover:from-red-600 hover:via-red-700 hover:to-pink-700 border border-red-400/20 hover:shadow-red-500/25',
-//     default: 'bg-gradient-to-r from-purple-500 via-purple-600 to-pink-600 hover:from-purple-600 hover:via-purple-700 hover:to-pink-700 border border-purple-400/20 hover:shadow-purple-500/25'
-//   };
-
-//   return (
-//     <button
-//       className={`flex-1 px-4 py-3 ${variants[variant]} text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 ${className}`}
-//       onClick={onClick}
-//       disabled={loading}
-//       {...props}
-//     >
-//       {loading ? (
-//         <>
-//           <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-//           Loading...
-//         </>
-//       ) : (
-//         children
-//       )}
-//     </button>
-//   );
-// };
-// AlertDialogAction.displayName = 'AlertDialogAction';
-
-// // Enhanced Icon Component
-// const AlertIcon = ({ variant = 'warning', className = '', ...props }) => {
-//   const variants = {
-//     warning: {
-//       icon: AlertTriangle,
-//       gradient: 'from-red-500 via-red-600 to-pink-600',
-//       pingColor: 'from-red-400 to-pink-500'
-//     },
-//     danger: {
-//       icon: Trash2,
-//       gradient: 'from-red-600 via-red-700 to-red-800',
-//       pingColor: 'from-red-500 to-red-600'
-//     }
-//   };
-
-//   const { icon: Icon, gradient, pingColor } = variants[variant];
-
-//   return (
-//     <div className={`flex items-center justify-center w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${gradient} rounded-full shadow-lg relative ${className}`} {...props}>
-//       <div className={`absolute inset-0 bg-gradient-to-br ${pingColor} rounded-full animate-ping opacity-30`} />
-//       <Icon className="w-10 h-10 text-white relative z-10" />
-//     </div>
-//   );
-// };
-
-// // Close Button Component
-// const AlertDialogClose = ({ onClose, className = '', ...props }) => {
-//   return (
-//     <button
-//       onClick={onClose}
-//       className={`absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-all duration-200 text-gray-400 hover:text-white ${className}`}
-//       {...props}
-//     >
-//       <X className="w-4 h-4" />
-//     </button>
-//   );
-// };
-
-// // Background Component
-// const AlertDialogBackground = ({ children, className = '' }) => {
-//   return (
-//     <div className={`min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-violet-950 flex items-center justify-center p-4 relative overflow-hidden ${className}`}>
-//       {/* Animated background stars */}
-//       <div className="absolute inset-0 opacity-30">
-//         <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-pulse" />
-//         <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 bg-purple-300 rounded-full animate-pulse" style={{animationDelay: '1s'}} />
-//         <div className="absolute bottom-1/4 left-1/3 w-1 h-1 bg-pink-300 rounded-full animate-pulse" style={{animationDelay: '2s'}} />
-//         <div className="absolute top-2/3 right-1/4 w-0.5 h-0.5 bg-blue-300 rounded-full animate-pulse" style={{animationDelay: '0.5s'}} />
-//       </div>
-//       {children}
-//     </div>
-//   );
-// };
-
-// // Real Implementation with your API
-// const MessageDeleteDialog = ({ message, onMessageDelete }) => {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [isDeleting, setIsDeleting] = useState(false);
-
-//   const handleDeleteConfirm = async () => {
-//     setIsDeleting(true);
-//     try {
-//       const response = await axios.delete(`/api/delete-message/${message._id}`);
-//       toast.success("Message Delete Confirmation", {
-//         description: response.data.message,
-//       });
-//       onMessageDelete(message._id);
-//       setIsOpen(false);
-//     } catch (error) {
-//       toast.error("Delete Failed", {
-//         description: "Failed to delete message. Please try again.",
-//       });
-//     } finally {
-//       setIsDeleting(false);
-//     }
-//   };
-
-//   return (
-//     <AlertDialogBackground>
-//       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-//         <AlertDialogTrigger asChild>
-//           <button
-//             onClick={() => setIsOpen(true)}
-//             className="group relative px-4 py-2 bg-gradient-to-r from-red-500 via-red-600 to-pink-600 hover:from-red-600 hover:via-red-700 hover:to-pink-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-red-500/25 transform hover:scale-105 transition-all duration-300 flex items-center gap-2 border border-red-400/20"
-//           >
-//             <Trash2 className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-//             Delete Message
-//             <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-//           </button>
-//         </AlertDialogTrigger>
-
-//         <AlertDialogContent>
-//           <AlertDialogHeader>
-//             <AlertDialogClose onClose={() => setIsOpen(false)} />
-//             <AlertIcon variant="warning" />
-//             <AlertDialogTitle>Delete Message</AlertDialogTitle>
-//             <p className="text-sm text-purple-300 text-center font-medium">
-//               This action cannot be undone
-//             </p>
-//           </AlertDialogHeader>
-
-//           <div className="px-6">
-//             <AlertDialogDescription>
-//               <div>
-//                 <p className="text-sm font-semibold text-red-200 mb-2">
-//                   Are you sure you want to delete this message?
-//                 </p>
-//                 <p>
-//                   This will permanently remove the message from your conversation. This action cannot be undone.
-//                 </p>
-//               </div>
-//             </AlertDialogDescription>
-//           </div>
-
-//           <AlertDialogFooter>
-//             <AlertDialogCancel onClick={() => setIsOpen(false)} disabled={isDeleting}>
-//               Cancel
-//             </AlertDialogCancel>
-//             <AlertDialogAction
-//               variant="destructive"
-//               loading={isDeleting}
-//               onClick={handleDeleteConfirm}
-//             >
-//               {!isDeleting && <Trash2 className="w-4 h-4" />}
-//               {isDeleting ? 'Deleting...' : 'Delete Message'}
-//             </AlertDialogAction>
-//           </AlertDialogFooter>
-
-//           <p className="text-xs text-purple-400 text-center pb-6 italic">
-//             Message will be removed immediately
-//           </p>
-//         </AlertDialogContent>
-//       </AlertDialog>
-//     </AlertDialogBackground>
-//   );
-// };
-
-// export default MessageDeleteDialog;
-
-// // Export individual components for reuse
-// export {
-//   AlertDialog,
-//   AlertDialogTrigger,
-//   AlertDialogContent,
-//   AlertDialogHeader,
-//   AlertDialogTitle,
-//   AlertDialogDescription,
-//   AlertDialogFooter,
-//   AlertDialogCancel,
-//   AlertDialogAction,
-//   AlertDialogClose,
-//   AlertIcon,
-//   AlertDialogBackground
-// }; ***//
+// Export types for external use
+export type { AlertDialogCloseProps, AlertIconProps, MessageDeleteDialogProps };

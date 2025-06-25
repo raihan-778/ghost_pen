@@ -139,9 +139,9 @@ export default function SendMessage() {
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base sm:text-lg md:text-xl text-blue-500 block">
+                  <FormLabel className="text-base lg:text-2xl sm:text-lg md:text-xl bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent block">
                     Send Anonymous Message to{" "}
-                    <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text break-all">
+                    <span className="font-bold bg-gradient-to-r from-cyan-400 to-purple-600 text-transparent bg-clip-text break-all">
                       @{username}
                     </span>
                   </FormLabel>
@@ -197,13 +197,13 @@ export default function SendMessage() {
               <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             </button>
 
-            <p className="text-xs sm:text-sm md:text-base font-medium text-blue-500 text-center sm:text-left">
+            <p className="text-xs sm:text-sm md:text-base lg:text-xl font-medium text-blue-500 text-center sm:text-left">
               Click on any message below to select it.
             </p>
           </div>
 
           {/* Messages Card - Responsive */}
-          <Card className="bg-slate-800 mx-auto rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 mb-4 sm:mb-5 md:mb-6 min-h-[300px] sm:min-h-[350px] md:min-h-[400px] overflow-hidden">
+          <Card className="bg-slate-800 mx-auto rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 mb-6 sm:mb-5 md:mb-6 min-h-[300px] sm:min-h-[350px] md:min-h-[400px] overflow-hidden">
             <CardHeader className="p-2 sm:p-4 md:p-6">
               <h3 className="text-lg sm:text-xl md:text-2xl accent-gradient font-bold animate-shimmer text-center sm:text-left">
                 Messages
@@ -212,7 +212,7 @@ export default function SendMessage() {
 
             {/* Dynamic Messages */}
             {suggestions.length ? (
-              <CardContent className=" flex flex-col space-y-3 sm:space-y-4 md:space-y-6 p-2 sm:p-3 md:p-4    ">
+              <CardContent className="flex flex-col space-y-3 sm:space-y-4 md:space-y-6 p-2 sm:p-3 md:p-4">
                 {error ? (
                   <p className="text-red-500 text-xs sm:text-sm md:text-base break-words text-center">
                     {error.toLowerCase()}
@@ -230,8 +230,8 @@ export default function SendMessage() {
                         group-hover:bg-blue-500/20 
                         transition-all duration-300 
                         cursor-pointer
-                        p-2 sm:p-3 md:p-4 lg:p-5
-                        min-h-[auto] sm:min-h-[3.5rem] md:min-h-[4rem]
+                        p-3 sm:p-2 md:p-4
+                        min-h-[auto] sm:min-h-[3.5rem] md:min-h-[3rem]
                         h-auto
                         whitespace-normal
                         text-left
@@ -273,8 +273,10 @@ export default function SendMessage() {
                         group-hover:bg-blue-500/20 
                         transition-all duration-300 
                         cursor-pointer
-                        p-3 sm:p-4 md:p-5
-                        min-h-[3rem] sm:min-h-[1.5rem] md:min-h-[2rem]
+                        p-3 sm:p-2 md:p-4 
+                        min-h-[auto] sm:min-h-[3.5rem] md:min-h-[3rem]
+                        whitespace-normal
+                        h-auto
                         ${
                           selectedMessage === message
                             ? "bg-blue-500 border-blue-300"
@@ -303,9 +305,12 @@ export default function SendMessage() {
             Get Your Message Board
           </div>
           <Link href={"/sign-up"}>
-            <Button className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base">
+            <GradientButton
+              variant="primary"
+              className="w-full sm:w-auto px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
+            >
               Create Your Account
-            </Button>
+            </GradientButton>
           </Link>
         </div>
       </div>
