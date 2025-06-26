@@ -105,7 +105,12 @@ function Dashboard() {
   // const { username } = session?.user as User;
   const username = session?.user?.username;
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  // const baseUrl = `${window?.location.protocol}//${window?.location.host}`;
+  const baseUrl =
+    typeof window !== "undefined"
+      ? `${window.location.protocol}//${window.location.host}`
+      : "";
+
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
